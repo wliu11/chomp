@@ -18,5 +18,7 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupActionBarWithNavController(this, navigationController)
     }
 
+    // Need home fragment
+
     override fun onSupportNavigateUp() = navigationController.navigateUp()
 }
