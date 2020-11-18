@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "175417022847",
+    "firebase_url": "https://chomp-4abec.firebaseio.com",
+    "project_id": "chomp-4abec",
+    "storage_bucket": "chomp-4abec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:175417022847:android:2e59e4ed8ea7e01b3ba24a",
+        "android_client_info": {
+          "package_name": "com.example.chomp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "175417022847-053p7d4dffhmoflguhps4vd1sf0l8uot.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvc5bJng1YV0u17I6oDPVX2USq_f0A6yA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "175417022847-053p7d4dffhmoflguhps4vd1sf0l8uot.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

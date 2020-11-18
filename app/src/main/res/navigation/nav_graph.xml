@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph">
+<navigation xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/welcomeFragment">
 
+    <fragment
+        android:id="@+id/welcomeFragment"
+        android:name="com.example.chomp.view.WelcomeFragment"
+        android:label="WelcomeFragment"
+        tools:layout="@layout/fragment_welcome">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.chomp.view.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
+
+    </fragment>
 
 </navigation>
