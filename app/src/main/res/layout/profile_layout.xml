@@ -10,7 +10,17 @@
         android:layout_height="wrap_content"
         android:text="PROFILE PAGE"
         android:textSize="35dp"
+        android:id="@+id/text"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GO TO HOME"
+        android:id="@+id/toHome"
+        app:layout_constraintTop_toBottomOf="@id/text"
         app:layout_constraintLeft_toLeftOf="parent"
         />
 

@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.chomp.MainViewModel
 import com.example.chomp.R
 
@@ -25,5 +27,13 @@ class Profile : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         return inflater.inflate(R.layout.profile_layout, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        view.findViewById<Button>(R.id.toHome).setOnClickListener {
+            findNavController().navigate(R.id.action_Profile_to_HomeFragment)
+        }
     }
 }

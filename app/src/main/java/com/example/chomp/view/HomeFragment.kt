@@ -2,7 +2,10 @@ package com.example.chomp.view
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -27,11 +30,23 @@ class HomeFragment :
         }
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        Log.d("mytag", "in home fragment")
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
+        return view
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        view.findViewById<Button>(R.id.button_first).setOnClickListener {
+            findNavController().navigate(R.id.action_HomeFragment_to_ProfileFragment)
+        }
     }
-
 }
 
 
