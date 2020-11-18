@@ -32,8 +32,6 @@ class Profile : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<Button>(R.id.toHome).setOnClickListener {
-            findNavController().navigate(R.id.action_Profile_to_HomeFragment)
-        }
+
     }
 }

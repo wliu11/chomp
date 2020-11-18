@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">chomp</string>
     <string name="action_settings">Settings</string>
+    <string name="favorites">Favorites</string>
+    <string name="messages">Messages</string>
+    <string name="change_my_location">Change my location</string>
+    <string name="profile_picture">Profile picture</string>
 </resources>
