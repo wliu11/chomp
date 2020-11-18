@@ -35,7 +35,6 @@ class HomeFragment :
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d("mytag", "in home fragment")
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         return view
     }
