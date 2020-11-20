@@ -38,6 +38,22 @@
             android:id="@+id/action_Profile_to_HomeFragment"
             app:destination="@+id/homeFragment"
             />
+
+        <action
+            android:id="@+id/action_Profile_to_ChatFragment"
+            app:destination="@+id/chatFragment"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.example.chomp.view.ChatFragment"
+        android:label="ChatFragment"
+        tools:layout="@layout/chat_page">
+
+        <action
+            android:id="@+id/action_Chat_to_ProfileFragment"
+            app:destination="@+id/profile"/>
     </fragment>
 
 
