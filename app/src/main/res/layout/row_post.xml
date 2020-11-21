@@ -32,19 +32,17 @@
                 />
 
             <TextView
-                android:id="@+id/restaurantName"
+                android:id="@+id/restaurantNameView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Filler Restaurant Name"
                 android:textSize="18sp"
-
                 card_view:layout_constraintLeft_toRightOf="@id/icon"
-                card_view:layout_constraintRight_toLeftOf="@id/price"
+                card_view:layout_constraintRight_toLeftOf="@id/priceView"
                 card_view:layout_constraintTop_toTopOf="parent"
                 />
 
             <TextView
-                android:id="@+id/price"
+                android:id="@+id/priceView"
                 android:layout_width="28dp"
                 android:layout_height="wrap_content"
                 android:text="$$"

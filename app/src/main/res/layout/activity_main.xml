@@ -8,16 +8,6 @@
     android:background="@color/white"
     tools:context=".MainActivity">
 
-    <Spinner
-        android:id="@+id/dropdown_menu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:background="@android:drawable/btn_dropdown"
-        android:spinnerMode="dropdown"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <include layout="@layout/content_main" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
