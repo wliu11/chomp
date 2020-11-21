@@ -3,18 +3,18 @@ package com.example.chomp.view
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-
+import androidx.core.view.doOnLayout
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.chomp.*
 import com.google.firebase.auth.FirebaseUser
-
+import kotlinx.android.synthetic.main.chat_page.*
 
 class ChatFragment :
     Fragment(R.layout.chat_page) {
@@ -124,7 +124,6 @@ class ChatFragment :
             }
         }
         composePreviewIV.visibility = View.GONE
-        //Log.d(javaClass.simpleName, "vm 1/5 ${viewModel.oneFifthWidthPx} mine ${(resources.displayMetrics.widthPixels / 5).toInt()}")
     }
 
 }
