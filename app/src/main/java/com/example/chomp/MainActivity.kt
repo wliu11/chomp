@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        viewModel.setPhotoIntent(::takePhotoIntent)
         navigationController = findNavController(R.id.nav_host_fragment)
         NavigationUI.setupActionBarWithNavController(this, navigationController)
 
@@ -91,7 +91,6 @@ class MainActivity : AppCompatActivity() {
         const val cameraRC = 10
     }
 
-
     private fun takePhotoIntent() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePhotoIntent ->
             takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, viewModel.getPhotoURI())
@@ -113,6 +112,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
 
     override fun onSupportNavigateUp() = navigationController.navigateUp()
 

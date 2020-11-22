@@ -68,6 +68,7 @@ class MainViewModel(application: Application,
     fun myUid(): String? {
         return firebaseAuthLiveData.value?.uid
     }
+
     fun signOut() {
         chatListener?.remove()
         FirebaseAuth.getInstance().signOut()
@@ -156,7 +157,7 @@ class MainViewModel(application: Application,
     // which has to be called from an activity.
     fun setPhotoIntent(_takePhotoIntent: () -> Unit) {
         takePhotoIntent = _takePhotoIntent
-        //state.set(takePhotoIntentKey, takePhotoIntent)
+        state.set(takePhotoIntentKey, takePhotoIntent)
     }
 
     /////////////////////////////////////////////////////////////
@@ -164,7 +165,7 @@ class MainViewModel(application: Application,
     // Send intent to take picture
     fun takePhoto(_photoSuccess: (String) -> Unit) {
         photoSuccess = _photoSuccess
-        //state.set(photoSuccessKey, photoSuccess)
+        state.set(photoSuccessKey, photoSuccess)
         takePhotoIntent.invoke()
     }
 
@@ -181,7 +182,7 @@ class MainViewModel(application: Application,
             Log.d(javaClass.simpleName, "photo path ${localPhotoFile.absolutePath}")
             photoUri = FileProvider.getUriForFile(
                 appContext,
-                "edu.utap.firechat",
+                "com.example.chomp",
                 localPhotoFile
             )
         } catch (ex: IOException) {
@@ -213,8 +214,8 @@ class MainViewModel(application: Application,
             Log.d(javaClass.simpleName, "uploadImage callback ${pictureUUID}")
             photoSuccess(pictureUUID)
             photoSuccess = ::defaultPhoto
-//            state.get<(String)->Unit>(photoSuccessKey)?.invoke(pictureUUID)
-//            state.set(photoSuccessKey, ::defaultPhoto)
+            state.get<(String)->Unit>(photoSuccessKey)?.invoke(pictureUUID)
+            state.set(photoSuccessKey, ::defaultPhoto)
             state.set(pictureUUIDKey, "")
         }
     }
