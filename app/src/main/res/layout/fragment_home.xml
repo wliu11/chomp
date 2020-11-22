@@ -15,6 +15,12 @@
         android:id="@+id/swipeRefreshLayout"
         >
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HELLLOOO WE ARE IN THE HOME FRagMENT"/>
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"

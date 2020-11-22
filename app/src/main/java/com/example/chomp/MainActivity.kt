@@ -20,6 +20,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.onNavDestinationSelected
 import com.google.android.gms.auth.api.Auth
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -58,31 +59,28 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        val spinner = findViewById<Spinner>(R.id.dropdown_menu)
-        val spinnerAdapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_item, paths
-        )
-
-        spinnerAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-        spinner.adapter = spinnerAdapter
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View,
-                position: Int,
-                id: Long
-            ) {
-                Log.d("mytag", "selected "+parent.getItemAtPosition(position).toString())
-                when(parent.getItemAtPosition(position).toString()) {
-                    "Home" -> navigationController.navigate(R.id.homeFragment)
-                    "My Profile" -> navigationController.navigate(R.id.profile)
-                    else -> Log.d("mytag", "is this even possble")
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNav)
+        bottomNavigationView.setOnNavigationItemSelectedListener {
+            Log.d("mytag", "it string is $it")
+            when (it.toString()) {
+                "Home" -> {
+                    navigationController.navigate(R.id.homeFragment)
+                    return@setOnNavigationItemSelectedListener true
                 }
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // another interface callback
+                "Profile" -> {
+                    navigationController.navigate(R.id.profile)
+                    Log.d("mytag", "we're navigating?")
+                    return@setOnNavigationItemSelectedListener true
+                }
+                "Messages" -> {
+                    navigationController.navigate(R.id.chatFragment)
+                    Log.d("mytag", "to messages")
+                    return@setOnNavigationItemSelectedListener true
+                }
+                else -> {
+                    Log.d("mytag", "is this even possble")
+                    return@setOnNavigationItemSelectedListener true
+                }
             }
         }
     }
@@ -120,7 +118,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
+        menuInflater.inflate(R.menu.bottom_nav_menu, menu)
         return true
     }
 

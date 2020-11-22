@@ -6,12 +6,4 @@
     tools:context=".view.WelcomeFragment">
 
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="to home"
-        android:id="@+id/buttnToHome"
-        />
-
-
 </FrameLayout>
