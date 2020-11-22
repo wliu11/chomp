@@ -18,7 +18,8 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             app:cardCornerRadius="75dp"
-            android:layout_margin="80dp"
+            android:layout_marginTop="80dp"
+            android:layout_marginBottom="20dp"
             >
 
             <ImageView
@@ -54,7 +55,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="50dp"
+        android:layout_margin="30dp"
         android:orientation="vertical"
         android:padding="20dp"
 
@@ -89,7 +90,6 @@
             android:gravity="start"
             android:drawablePadding="10dp"
             app:drawableLeftCompat="@drawable/ic_baseline_pin_drop_24"/>
-
     </LinearLayout>
 
 </LinearLayout>
