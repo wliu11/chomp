@@ -26,7 +26,8 @@ class ImageAdapter(private val viewModel: MainViewModel,
 
     inner class VH(view: View) :
         RecyclerView.ViewHolder(view) {
-        private var photoIB: ImageButton = view.findViewById(R.id.photoIB)
+       // private var photoIB: ImageButton = view.findViewById(R.id.photoIB)
+        private var photoIB: ImageButton = view.findViewById(R.id.icon)  // Venkat - Just to compile
         fun bind(pictureUUID: String, position: Int) {
             viewModel.glideFetch(pictureUUID, photoIB)
             if(deletePos == null ) {
@@ -42,7 +43,8 @@ class ImageAdapter(private val viewModel: MainViewModel,
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val itemView = LayoutInflater.from(parent.context).inflate(
-            R.layout.photo_list_row,
+           // R.layout.photo_list_row,
+            R.layout.row_chat, // Venkat - Just to compile
             parent, false)
         return VH(itemView)
     }
