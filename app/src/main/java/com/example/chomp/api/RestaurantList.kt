@@ -4,21 +4,46 @@ import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import androidx.core.text.clearSpans
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.annotations.SerializedName
 
-data class Restaurant (
+data class User_Rating(
+    @SerializedName("aggregate_rating")
+    val aggregate_rating: Double?
+)
+
+data class Location(
+    @SerializedName("locality_verbose")
+    val locality_verbose: SpannableString?
+)
+
+//data class CollectionList(
+//    @SerializedName("res_count")
+//    val name: Int,
+//    @SerializedName("image_url")
+//    val image_url: String,
+//    @SerializedName("title")
+//    val title: SpannableString
+//)
+
+data class RestaurantList (
     @SerializedName("name")
-    val name: String,
-    @SerializedName("icon_img")
-    val iconURL: String?,
-    @SerializedName("public_description")
-    val publicDescription: SpannableString?,
-    @SerializedName("rating")
-    val rating: Int,
-    @SerializedName("cost")
-    val cost: Int,
-    @SerializedName("title")
-    val title: SpannableString,
+    val name: String?,
+    @SerializedName("thumb")
+    val thumbnailURL: String,
+    @SerializedName("featured_image")
+    val imageURL: SpannableString?,
+    @SerializedName("user_rating")
+    val user_rating: User_Rating,
+    @SerializedName("cuisines")
+    val cuisines: String?,
+    @SerializedName("average_cost_for_two")
+    val cost: Int?,
+    @SerializedName("currency")
+    val currency: String?,
+    @SerializedName("location")
+    val locality: Location?
     ) {
     companion object {
         // NB: This only highlights the first match

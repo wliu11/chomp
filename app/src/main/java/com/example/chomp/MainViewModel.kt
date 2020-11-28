@@ -1,4 +1,5 @@
 package com.example.chomp
+
 import android.app.Application
 import android.content.ContentValues
 import android.net.Uri
@@ -6,15 +7,17 @@ import android.os.Environment
 import android.util.Log
 import android.widget.ImageView
 import androidx.core.content.FileProvider
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import com.example.chomp.glide.Glide
+import androidx.lifecycle.*
+import com.example.chomp.api.CollectionList
+import com.example.chomp.api.RestaurantList
+import com.example.chomp.api.RestaurantApi
+import com.example.chomp.api.RestaurantListRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
 import java.util.*
@@ -48,6 +51,21 @@ class MainViewModel(application: Application,
     // assert does not work
     private lateinit var crashMe: String
 
+    // Venkat started here
+
+    private var restaurantApi = RestaurantApi.create()
+    private var restaurantRepository = RestaurantListRepository(restaurantApi)
+    private var restaurants = MutableLiveData<List<RestaurantList>>()
+    private var city_name = MutableLiveData<String>().apply {
+        value = "Austin,TX"
+    }
+    private var cityId = MutableLiveData<Int>().apply {
+        value = 278
+    }
+    private var collections = MutableLiveData<List<CollectionList>>()
+
+    //Venkat end here
+
     // Default function implementations for photoSuccess callback
     private fun noPhoto() {
         Log.d(javaClass.simpleName, "Function must be initialized to something that can start the camera intent")
@@ -78,6 +96,66 @@ class MainViewModel(application: Application,
     fun observeChat(): LiveData<List<ChatRow>> {
         return chat
     }
+//started here - Venkat
+
+    fun posts() = viewModelScope.launch(
+        context = viewModelScope.coroutineContext
+                + Dispatchers.IO) {
+        // Update LiveData from IO dispatcher, use postValue
+        restaurants.postValue(cityId.value?.let { restaurantRepository.getRestaurants(it) })
+    }
+
+    fun collections() =  viewModelScope.launch(
+        context = viewModelScope.coroutineContext
+                + Dispatchers.IO) {
+        // Update LiveData from IO dispatcher, use postValue
+        collections.postValue(cityId.value?.let { restaurantRepository.getCollections(it) })
+    }
+
+    fun cities() = viewModelScope.launch(
+        context = viewModelScope.coroutineContext
+                + Dispatchers.IO) {
+        // Update LiveData from IO dispatcher, use postValue
+        cityId.postValue(city_name.value?.let { restaurantRepository.getCityID(it)?.id })
+    }
+
+    init {
+        posts()
+        collections()
+    }
+
+    fun setLocation(newLocation: String) {
+        city_name.value = newLocation
+        Log.d("XXX", "New City name: " + newLocation)
+        cities()
+    }
+
+    private var  newRestaurants = MediatorLiveData<List<RestaurantList>>().apply {
+
+        addSource(cityId) {value = newList()}
+        //addSource(restaurants) {value = newList()}
+
+        // Initial value
+        value = restaurants.value
+    }
+
+    private fun newList(): List<RestaurantList>? {
+       // cities()
+        posts()
+        collections()
+        return restaurants.value
+    }
+
+    fun observePosts(): LiveData<List<RestaurantList>> {
+        return newRestaurants
+    }
+
+    fun observeCollections(): LiveData<List<CollectionList>> {
+        return collections
+    }
+
+//End here - Venkat
+
     fun saveChatRow(chatRow: ChatRow) {
         Log.d(
             "HomeViewModel",
@@ -233,8 +311,8 @@ class MainViewModel(application: Application,
 
     fun glideFetch(pictureUUID: String, imageView: ImageView) {
         // NB: Should get apsect ratio from image itself
-        Glide.fetch(Storage.uuid2StorageReference(pictureUUID), imageView,
-            fourFifthWidthPx, (1.466*fourFifthWidthPx).toInt())
+       // Glide.fetch(Storage.uuid2StorageReference(pictureUUID), imageView,
+       //     fourFifthWidthPx, (1.466*fourFifthWidthPx).toInt())
     }
     // Debatable how useful this is.
     override fun onCleared() {

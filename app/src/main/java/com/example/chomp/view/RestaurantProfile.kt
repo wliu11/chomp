@@ -3,7 +3,7 @@ package com.example.chomp.view
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chomp.R
-import com.example.chomp.glide.Glide
+import edu.example.chomp.glide.Glide
 import kotlinx.android.synthetic.main.restaurant_profile.*
 
 class RestaurantProfile : AppCompatActivity() {
@@ -24,6 +24,6 @@ class RestaurantProfile : AppCompatActivity() {
         val imageURL = restaurant!!.getString("restaurant image")
         val thumbURL = restaurant.getString("restaurant icon")
 
-        Glide.glidefetch(imageURL, thumbURL, restaurantIcon)
+        Glide.glideFetch(imageURL, thumbURL, restaurantIcon)
     }
 }
