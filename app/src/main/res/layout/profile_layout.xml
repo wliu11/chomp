@@ -71,25 +71,16 @@
             android:drawablePadding="10dp"
             app:drawableLeftCompat="@drawable/ic_baseline_favorite_24" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/messagesProfilePage"
-            android:text="@string/messages"
-            android:textSize="25sp"
-            android:gravity="start"
-            android:drawablePadding="10dp"
-            app:drawableLeftCompat="@drawable/ic_baseline_message_24" />
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/messagesProfilePage"-->
+<!--            android:text="@string/messages"-->
+<!--            android:textSize="25sp"-->
+<!--            android:gravity="start"-->
+<!--            android:drawablePadding="10dp"-->
+<!--            app:drawableLeftCompat="@drawable/ic_baseline_message_24" />-->
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/locationChangeProfilePage"
-            android:text="@string/change_my_location"
-            android:textSize="25sp"
-            android:gravity="start"
-            android:drawablePadding="10dp"
-            app:drawableLeftCompat="@drawable/ic_baseline_pin_drop_24"/>
     </LinearLayout>
 
 </LinearLayout>

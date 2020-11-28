@@ -13,17 +13,16 @@ import com.example.chomp.MainViewModel
 import com.example.chomp.R
 import com.example.chomp.RowAdapter
 
+// This fragment is the first page the user sees when they open the app
+// It shows a list of restaurants in the user's zipcode and has a search bar for the user
+// to then filter these restaurants
+
 class HomeFragment :
         Fragment(R.layout.fragment_home) {
 
     private val viewModel: MainViewModel by activityViewModels()
     private lateinit var swipe: SwipeRefreshLayout
 
-    companion object {
-        fun newInstance(): HomeFragment {
-            return HomeFragment()
-        }
-    }
 
     private fun initSwipeLayout(root: View) {
         swipe = root.findViewById(R.id.swipeRefreshLayout)
@@ -31,7 +30,6 @@ class HomeFragment :
             swipe.isRefreshing = false
         }
     }
-
 
     private fun initAdapter(root: View) {
         // Initializing recyclerView

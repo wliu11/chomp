@@ -2,19 +2,7 @@
 <navigation xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/welcomeFragment">
-
-    <fragment
-        android:id="@+id/welcomeFragment"
-        android:name="com.example.chomp.view.WelcomeFragment"
-        android:label="WelcomeFragment"
-        tools:layout="@layout/fragment_welcome">
-
-        <action
-            android:id="@+id/action_to_HomeFragment"
-            app:destination="@id/homeFragment" />
-
-    </fragment>
+    app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -26,6 +14,12 @@
             android:id="@+id/action_to_ProfileFragment"
             app:destination="@+id/profile"
             />
+
+        <action
+            android:id="@+id/action_to_SettingsFragment"
+            app:destination="@+id/settingsFragment"
+            />
+
     </fragment>
 
     <fragment
@@ -61,10 +55,6 @@
         android:name="com.example.chomp.view.Settings"
         android:label="SettingsFragment"
         tools:layout="@layout/settings">
-
-        <action
-            android:id="@+id/action_to_SettingsFragment"
-            app:destination="@id/settingsFragment" />
 
     </fragment>
 

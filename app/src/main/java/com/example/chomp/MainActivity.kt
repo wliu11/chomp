@@ -8,11 +8,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -20,15 +16,12 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.onNavDestinationSelected
-import com.example.chomp.view.SplashActivity
-import com.google.android.gms.auth.api.Auth
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels()
     private lateinit var navigationController: NavController
-    private var splashTime = 2000L
 
     private fun initUserUI() {
         viewModel.observeFirebaseAuthLiveData().observe(this, Observer {
@@ -56,16 +49,6 @@ class MainActivity : AppCompatActivity() {
         // Hide top action toolbar
         supportActionBar?.hide()
 
-        // Initiate welcome splash screen
-        Handler().postDelayed(
-            {
-                // Initiate firebase user authentication
-                initUserUI()
-                val authInitIntent = Intent(this, AuthInitActivity::class.java)
-                startActivity(authInitIntent)
-
-            }, splashTime
-        )
 
         // Initiate bottom toolbar navigation
         navigationController = findNavController(R.id.nav_host_fragment)
@@ -88,7 +71,7 @@ class MainActivity : AppCompatActivity() {
                     return@setOnNavigationItemSelectedListener true
                 }
                 "Settings" -> {
-                    navigationController.navigate(R.id.settings)
+                    navigationController.navigate(R.id.settingsFragment)
                     Log.d("mytag", "to settings")
                     return@setOnNavigationItemSelectedListener true
                 }
@@ -106,7 +89,7 @@ class MainActivity : AppCompatActivity() {
         const val cameraRC = 10
     }
 
-    private fun takePhotoIntent() {
+    fun takePhotoIntent() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePhotoIntent ->
             takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, viewModel.getPhotoURI())
             startActivityForResult(takePhotoIntent, cameraRC)
