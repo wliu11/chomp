@@ -102,6 +102,7 @@ class FirestoreChatAdapter(private var viewModel: MainViewModel)
                 timeTV.text = dateFormat.format(item.timeStamp.toDate())
             }
         }
+
         fun bind(item: ChatRow?) {
             if (item == null) return
             if (viewModel.myUid() == item.ownerUid) {

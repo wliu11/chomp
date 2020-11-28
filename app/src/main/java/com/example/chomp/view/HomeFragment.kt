@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.chomp.*
+import com.example.chomp.adapters.CollectionAdapter
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment :

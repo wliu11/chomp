@@ -1,4 +1,4 @@
-package com.example.chomp.glide
+package edu.example.chomp.glide
 
 import android.content.Context
 import android.content.res.Resources
@@ -40,6 +40,7 @@ object Glide {
         .fitCenter()
         // Rounded corners are so lovely.
         .transform(RoundedCorners (20))
+
     private var glideOptions1 = RequestOptions ()
         .centerCrop()
         .transform(RoundedCorners (40))
@@ -74,14 +75,14 @@ object Glide {
                 .asBitmap() // Try to display animated Gifs and video still
                 .load(fromHtml(urlString))
                 .apply(glideOptions)
-                .error(R.drawable.penguin)
+                .error(R.color.colorAccent)
                 .override(width, height)
                 .error(
                     GlideApp.with(imageView.context)
                         .asBitmap()
                         .load(fromHtml(thumbnailURL))
                         .apply(glideOptions)
-                        .error(R.drawable.penguin)
+                        .error(R.color.colorAccent)
                         .override(500, 500)
                 )
                 .into(imageView)
@@ -92,15 +93,15 @@ object Glide {
             .asBitmap() // Try to display animated Gifs and video still
             .load(fromHtml(urlString))
             .apply(glideOptions1)
-            .error(R.drawable.penguin)
+            .error(R.color.colorAccent)
             .override(width, height)
             .error(
                 GlideApp.with(imageView.context)
                     .asBitmap()
                     .load(fromHtml(thumbnailURL))
                     .apply(glideOptions)
-                    .error(R.drawable.penguin)
-                    .override(300, 300)
+                    .error(R.color.colorAccent)
+                    .override(500, 500)
             )
             .into(imageView)
     }

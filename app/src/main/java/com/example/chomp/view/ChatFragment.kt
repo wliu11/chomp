@@ -49,14 +49,9 @@ class ChatFragment :
         composeMessageET.text.clear()
         composePreviewIV.visibility = View.GONE
         fragmentUUID = null
-
-        Log.d("mytag", "clear compose done")
     }
 
     // For our phone, translate dp to pixels
-    private fun dpToPx(dp: Int): Int {
-        return (dp * resources.displayMetrics.density).toInt()
-    }
 
     private fun initComposeSendIB() {
         // Send message button
@@ -112,6 +107,8 @@ class ChatFragment :
         }
         composeCameraIB.setOnClickListener {
             viewModel.takePhoto {
+                Log.d("mytag", "take photo please?")
+
                 Log.d(javaClass.simpleName, "uuid $it")
                 fragmentUUID = it
                 composePreviewIV.doOnLayout {view ->

@@ -9,8 +9,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.chomp.glide.Glide
 import com.example.chomp.api.RestaurantList
+import edu.example.chomp.glide.Glide
 
 class RowAdapter(private val viewModel: MainViewModel)
     : ListAdapter<RestaurantList, RowAdapter.VH>(RestaurantDiff()) {

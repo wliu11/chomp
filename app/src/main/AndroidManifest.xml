@@ -18,6 +18,15 @@
         android:theme="@style/Theme.Chomp"
         android:hardwareAccelerated="true"
         >
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.chomp"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -27,6 +36,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".AuthInitActivity"
+            />
+        <activity android:name=".view.SplashActivity"
             />
     </application>
 

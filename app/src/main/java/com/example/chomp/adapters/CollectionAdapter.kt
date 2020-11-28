@@ -1,4 +1,4 @@
-package com.example.chomp
+package com.example.chomp.adapters
 
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -9,9 +9,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chomp.MainViewModel
+import com.example.chomp.R
 import com.example.chomp.api.CollectionList
-import com.example.chomp.glide.Glide
 import com.example.chomp.api.RestaurantList
+import edu.example.chomp.glide.Glide
 
 class CollectionAdapter(private val viewModel: MainViewModel)
     : ListAdapter<CollectionList, CollectionAdapter.VH>(CollectionDiff()) {
@@ -62,7 +64,8 @@ class CollectionAdapter(private val viewModel: MainViewModel)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         return VH(
-            LayoutInflater.from(parent.context).inflate(R.layout.row_collection,
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.row_collection,
                 parent, false))
     }
 
