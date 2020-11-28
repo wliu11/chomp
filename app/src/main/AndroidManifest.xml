@@ -30,6 +30,8 @@
         </activity>
         <activity android:name=".AuthInitActivity"
             />
+        <activity android:name=".view.SplashActivity"
+            />
     </application>
 
 </manifest>

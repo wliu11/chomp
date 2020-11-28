@@ -11,7 +11,7 @@
         tools:layout="@layout/fragment_welcome">
 
         <action
-            android:id="@+id/action_WelcomeFragment_to_HomeFragment"
+            android:id="@+id/action_to_HomeFragment"
             app:destination="@id/homeFragment" />
 
     </fragment>
@@ -23,7 +23,7 @@
         tools:layout="@layout/fragment_home">
 
         <action
-            android:id="@+id/action_HomeFragment_to_ProfileFragment"
+            android:id="@+id/action_to_ProfileFragment"
             app:destination="@+id/profile"
             />
     </fragment>
@@ -35,12 +35,12 @@
         tools:layout="@layout/profile_layout">
 
         <action
-            android:id="@+id/action_Profile_to_HomeFragment"
+            android:id="@+id/action_to_HomeFragment"
             app:destination="@+id/homeFragment"
             />
 
         <action
-            android:id="@+id/action_Profile_to_ChatFragment"
+            android:id="@+id/action_to_ChatFragment"
             app:destination="@+id/chatFragment"
             />
     </fragment>
@@ -52,9 +52,20 @@
         tools:layout="@layout/chat_page">
 
         <action
-            android:id="@+id/action_Chat_to_ProfileFragment"
+            android:id="@+id/action_to_ProfileFragment"
             app:destination="@+id/profile"/>
     </fragment>
 
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.chomp.view.Settings"
+        android:label="SettingsFragment"
+        tools:layout="@layout/settings">
+
+        <action
+            android:id="@+id/action_to_SettingsFragment"
+            app:destination="@id/settingsFragment" />
+
+    </fragment>
 
 </navigation>

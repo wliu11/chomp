@@ -3,6 +3,7 @@ package com.example.chomp
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.provider.MediaStore
 import android.util.Log
 import android.view.Menu
@@ -19,15 +20,15 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.onNavDestinationSelected
+import com.example.chomp.view.SplashActivity
 import com.google.android.gms.auth.api.Auth
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels()
-    private lateinit var auth: Auth
     private lateinit var navigationController: NavController
-    private val paths = arrayOf("Home", "My Profile")
+    private var splashTime = 2000L
 
     private fun initUserUI() {
         viewModel.observeFirebaseAuthLiveData().observe(this, Observer {
@@ -49,19 +50,28 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         viewModel.setPhotoIntent(::takePhotoIntent)
-        navigationController = findNavController(R.id.nav_host_fragment)
-        NavigationUI.setupActionBarWithNavController(this, navigationController)
 
-        initUserUI()
-        val authInitIntent = Intent(this, AuthInitActivity::class.java)
-        startActivity(authInitIntent)
-
+        // Hide top action toolbar
         supportActionBar?.hide()
 
+        // Initiate welcome splash screen
+        Handler().postDelayed(
+            {
+                // Initiate firebase user authentication
+                initUserUI()
+                val authInitIntent = Intent(this, AuthInitActivity::class.java)
+                startActivity(authInitIntent)
+
+            }, splashTime
+        )
+
+        // Initiate bottom toolbar navigation
+        navigationController = findNavController(R.id.nav_host_fragment)
+        NavigationUI.setupActionBarWithNavController(this, navigationController)
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNav)
         bottomNavigationView.setOnNavigationItemSelectedListener {
-            Log.d("mytag", "it string is $it")
             when (it.toString()) {
                 "Home" -> {
                     navigationController.navigate(R.id.homeFragment)
@@ -75,6 +85,11 @@ class MainActivity : AppCompatActivity() {
                 "Messages" -> {
                     navigationController.navigate(R.id.chatFragment)
                     Log.d("mytag", "to messages")
+                    return@setOnNavigationItemSelectedListener true
+                }
+                "Settings" -> {
+                    navigationController.navigate(R.id.settings)
+                    Log.d("mytag", "to settings")
                     return@setOnNavigationItemSelectedListener true
                 }
                 else -> {
