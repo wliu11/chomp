@@ -362,10 +362,17 @@ class MainViewModel(application: Application,
     companion object {
         fun launchPost(context: Context, restaurant: RestaurantList) {
             val intent = Intent(context, RestaurantProfile::class.java)
+            Log.d("mytag", "restaurant name is " + restaurant.name.toString())
+            Log.d("mytag", "restaurant cuisine is " + restaurant.cuisines.toString())
+            Log.d("mytag", "restaurant cost is " + restaurant.cost.toString())
+            Log.d("mytag", "restaurant image url is " + restaurant.imageURL.toString())
+            Log.d("mytag", "restaurant thumbnail url is " + restaurant.thumbnailURL)
+
             intent.putExtra("name", restaurant.name.toString())
             intent.putExtra("cuisine", restaurant.cuisines.toString())
-            intent.putExtra("cost", restaurant.cost)
-            intent.putExtra("imageURL", restaurant.imageURL)
+            intent.putExtra("cost", restaurant.cost.toString())
+            intent.putExtra("imageURL", restaurant.imageURL.toString())
+            intent.putExtra("thumbnailURL", restaurant.thumbnailURL)
             context.startActivity(intent)
         }
     }
