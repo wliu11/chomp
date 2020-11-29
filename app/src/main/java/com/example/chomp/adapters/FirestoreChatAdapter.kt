@@ -1,9 +1,8 @@
-package com.example.chomp
+package com.example.chomp.adapters
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.icu.text.SimpleDateFormat
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,9 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chomp.ChatRow
+import com.example.chomp.MainViewModel
+import com.example.chomp.R
 
 class FirestoreChatAdapter(private var viewModel: MainViewModel)
     : ListAdapter<ChatRow, FirestoreChatAdapter.VH>(Diff()) {
@@ -46,34 +48,34 @@ class FirestoreChatAdapter(private var viewModel: MainViewModel)
         private var myTimeTV = itemView.findViewById<TextView>(R.id.chatTimeTV)
         private var myTextTV = itemView.findViewById<TextView>(R.id.chatTextTV)
         private var myTextCV = itemView.findViewById<CardView>(R.id.textCV)
-        private var myPicIV = itemView.findViewById<ImageView>(R.id.picIV)
+//        private var myPicIV = itemView.findViewById<ImageView>(R.id.picIV)
         private var otherUserTV = itemView.findViewById<TextView>(R.id.otherChatUserTV)
         private var otherTimeTV = itemView.findViewById<TextView>(R.id.otherChatTimeTV)
         private var otherTextTV = itemView.findViewById<TextView>(R.id.otherChatTextTV)
         private var otherTextCV = itemView.findViewById<CardView>(R.id.otherTextCV)
-        private var otherPicIV = itemView.findViewById<ImageView>(R.id.otherPicIV)
+//        private var otherPicIV = itemView.findViewById<ImageView>(R.id.otherPicIV)
         init {
             myTextCV.isLongClickable = true
         }
         private fun goneElements(userTV: TextView, timeTV: TextView, textTV: TextView,
-                                 textCV: CardView, picIV: ImageView) {
+                                 textCV: CardView) {
             userTV.visibility = View.GONE
             timeTV.visibility = View.GONE
             textTV.visibility = View.GONE
             textCV.visibility = View.GONE
-            picIV.visibility = View.GONE
+//            picIV.visibility = View.GONE
         }
         private fun visibleElements(userTV: TextView, timeTV: TextView, textTV: TextView,
-                                    textCV: CardView, picIV: ImageView) {
+                                    textCV: CardView) {
             userTV.visibility = View.VISIBLE
             timeTV.visibility = View.VISIBLE
             textTV.visibility = View.VISIBLE
             textCV.visibility = View.VISIBLE
-            picIV.visibility = View.VISIBLE
+//            picIV.visibility = View.VISIBLE
         }
         private fun bindElements(item: ChatRow, backgroundColor: Int, textColor: Int,
                                  userTV: TextView, timeTV: TextView, textTV: TextView,
-                                 textCV: CardView, picIV: ImageView) {
+                                 textCV: CardView) {
             // Set background on CV, not TV because...layout is weird
             textCV.setCardBackgroundColor(backgroundColor)
             textTV.setTextColor(textColor)
@@ -84,15 +86,15 @@ class FirestoreChatAdapter(private var viewModel: MainViewModel)
                 true
             }
             // XXX Write me, bind picIV using pictureUUID.
-            if (item.pictureUUID == null) {
-                picIV.visibility = View.GONE
-            } else {
-                viewModel.glideFetch(item.pictureUUID!!, picIV)
-            }
-            picIV.setOnLongClickListener {
-                viewModel.deleteChatRow(item)
-                true
-            }
+//            if (item.pictureUUID == null) {
+//                picIV.visibility = View.GONE
+//            } else {
+//                viewModel.glideFetch(item.pictureUUID!!, picIV)
+//            }
+//            picIV.setOnLongClickListener {
+//                viewModel.deleteChatRow(item)
+//                true
+//            }
 
             if (item.timeStamp == null) {
                 timeTV.text = ""
@@ -106,17 +108,17 @@ class FirestoreChatAdapter(private var viewModel: MainViewModel)
         fun bind(item: ChatRow?) {
             if (item == null) return
             if (viewModel.myUid() == item.ownerUid) {
-                goneElements(otherUserTV, otherTimeTV, otherTextTV, otherTextCV, otherPicIV)
-                visibleElements(myUserTV, myTimeTV, myTextTV, myTextCV, myPicIV)
+                goneElements(otherUserTV, otherTimeTV, otherTextTV, otherTextCV)
+                visibleElements(myUserTV, myTimeTV, myTextTV, myTextCV)
                 bindElements(
                     item, iphoneTextBlue, Color.WHITE,
-                    myUserTV, myTimeTV, myTextTV, myTextCV, myPicIV)
+                    myUserTV, myTimeTV, myTextTV, myTextCV)
             } else {
-                goneElements(myUserTV, myTimeTV, myTextTV, myTextCV, myPicIV)
-                visibleElements(otherUserTV, otherTimeTV, otherTextTV, otherTextCV, otherPicIV)
+                goneElements(myUserTV, myTimeTV, myTextTV, myTextCV)
+                visibleElements(otherUserTV, otherTimeTV, otherTextTV, otherTextCV)
                 bindElements(
                     item, dimGrey, Color.BLACK,
-                    otherUserTV, otherTimeTV, otherTextTV, otherTextCV, otherPicIV)
+                    otherUserTV, otherTimeTV, otherTextTV, otherTextCV)
             }
         }
     }

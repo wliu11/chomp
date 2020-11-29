@@ -1,6 +1,5 @@
 package com.example.chomp.adapters
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.chomp.MainViewModel
 import com.example.chomp.R
 import com.example.chomp.api.CollectionList
-import com.example.chomp.api.RestaurantList
-import edu.example.chomp.glide.Glide
+import com.example.chomp.glide.Glide
 
 class CollectionAdapter(private val viewModel: MainViewModel)
     : ListAdapter<CollectionList, CollectionAdapter.VH>(CollectionDiff()) {

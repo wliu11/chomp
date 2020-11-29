@@ -4,17 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.chomp.MainViewModel
 import com.example.chomp.R
-import com.example.chomp.RowAdapter
+import com.example.chomp.adapters.RowAdapter
 
 class Favorites : Fragment() {
 
@@ -26,12 +24,7 @@ class Favorites : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val root = inflater.inflate(R.layout.profile_layout, container, false)
-        setHasOptionsMenu(true)
-
-//        requireActivity().onBackPressedDispatcher.addCallback(this) {
-//            (root.context as FragmentActivity).supportFragmentManager.popBackStack()
-//        }
+        val root = inflater.inflate(R.layout.fragment_rv, container, false)
 
         val rv = root.findViewById<RecyclerView>(R.id.recyclerView)
         rv.layoutManager = LinearLayoutManager(context)
@@ -43,11 +36,11 @@ class Favorites : Fragment() {
             swipe.isRefreshing = false
         }
 
-//        viewModel.observeFav().observe(viewLifecycleOwner,
-//            Observer {
-//                adapter.submitList(it)
-//                adapter.notifyDataSetChanged()
-//            })
+        viewModel.observeFav().observe(viewLifecycleOwner,
+            Observer {
+                adapter.submitList(it)
+                adapter.notifyDataSetChanged()
+            })
 
 //        viewModel.setReddit(false)
 //        viewModel.setSubredditFilt(false)
@@ -64,4 +57,5 @@ class Favorites : Fragment() {
 
         return root
     }
+
 }

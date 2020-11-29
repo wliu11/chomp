@@ -1,8 +1,7 @@
-package edu.example.chomp.glide
+package com.example.chomp.glide
 
 import android.content.Context
 import android.content.res.Resources
-import android.net.Uri
 import android.os.Build
 import android.text.Html
 import android.util.Log
@@ -12,8 +11,9 @@ import com.bumptech.glide.annotation.GlideModule
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
-import com.example.chomp.MainActivity
 import com.example.chomp.R
+import com.google.firebase.storage.StorageReference
+import com.example.chomp.glide.GlideApp
 
 
 @GlideModule
@@ -70,6 +70,17 @@ object Glide {
             imageView.setTag("bigdog0.jpg")
         }
     }
+
+    fun fetch(storageReference: StorageReference, imageView: ImageView, width: Int, height: Int) {
+        GlideApp.with(imageView.context)
+            .asBitmap() // Try to display animated Gifs and video still
+            .load(storageReference)
+            .apply(glideOptions)
+            .error(R.color.colorAccent)
+            .override(width, height)
+            .into(imageView)
+    }
+
     fun glideFetch(urlString: String, thumbnailURL: String, imageView: ImageView) {
             GlideApp.with(imageView.context)
                 .asBitmap() // Try to display animated Gifs and video still

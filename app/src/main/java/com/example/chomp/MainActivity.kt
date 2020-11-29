@@ -19,6 +19,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.onNavDestinationSelected
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.io.Serializable
 
 class MainActivity : AppCompatActivity() {
 
@@ -46,11 +47,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel.setPhotoIntent(::takePhotoIntent)
+//        viewModel.setPhotoIntent(::takePhotoIntent)
+
+        initUserUI()
+        val authInitIntent = Intent(this, AuthInitActivity::class.java)
+        startActivity(authInitIntent)
 
         // Hide top action toolbar
         supportActionBar?.hide()
-
 
         // Initiate bottom toolbar navigation
         navigationController = findNavController(R.id.nav_host_fragment)
@@ -90,28 +94,28 @@ class MainActivity : AppCompatActivity() {
     companion object {
         const val cameraRC = 10
     }
+//
+//    private fun takePhotoIntent() {
+//        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePhotoIntent ->
+//            takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, viewModel.getPhotoURI())
+//            startActivityForResult(takePhotoIntent, cameraRC)
+//        }
+//        Log.d(javaClass.simpleName, "takePhotoIntent")
+//    }
 
-    fun takePhotoIntent() {
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePhotoIntent ->
-            takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, viewModel.getPhotoURI())
-            startActivityForResult(takePhotoIntent, cameraRC)
-        }
-        Log.d(javaClass.simpleName, "takePhotoIntent")
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        Log.d(javaClass.simpleName, "onActivityResult")
-        when (requestCode) {
-            cameraRC -> {
-                if (resultCode == RESULT_OK) {
-                    viewModel.pictureSuccess()
-                } else {
-                    viewModel.pictureFailure()
-                }
-            }
-        }
-    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        Log.d(javaClass.simpleName, "onActivityResult")
+//        when (requestCode) {
+//            cameraRC -> {
+//                if (resultCode == RESULT_OK) {
+//                    viewModel.pictureSuccess()
+//                } else {
+//                    viewModel.pictureFailure()
+//                }
+//            }
+//        }
+//    }
 
 
     override fun onSupportNavigateUp() = navigationController.navigateUp()

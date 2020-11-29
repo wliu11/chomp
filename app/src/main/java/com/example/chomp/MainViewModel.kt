@@ -1,7 +1,8 @@
 package com.example.chomp
 
 import android.app.Application
-import android.content.ContentValues
+import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Environment
 import android.util.Log
@@ -16,6 +17,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import com.example.chomp.glide.Glide
+import com.example.chomp.view.RestaurantProfile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
@@ -28,17 +31,17 @@ class MainViewModel(application: Application,
                     private val state: SavedStateHandle
 )
     : AndroidViewModel(application) {
-    companion object {
-        // Remember the uuid, and hence file name of file camera will create
-        const val pictureUUIDKey = "pictureUUIDKey"
-        // NB: Here is a problem with the way I do pictures.  It works when I use
-        // local variables to save these "function pointers."  But the viewModel can be
-        // cleared, so we want to save these function pointers.  But they are actually closures
-        // with a reference to the activity/fragment that created them.  So we get a
-        // parcelable error if we try to store them into a SavedStateHandle
-        const val photoSuccessKey = "photoSuccessKey"
-        const val takePhotoIntentKey = "takePhotoIntentKey"
-    }
+//    companion object {
+//        // Remember the uuid, and hence file name of file camera will create
+//        const val pictureUUIDKey = "pictureUUIDKey"
+//        // NB: Here is a problem with the way I do pictures.  It works when I use
+//        // local variables to save these "function pointers."  But the viewModel can be
+//        // cleared, so we want to save these function pointers.  But they are actually closures
+//        // with a reference to the activity/fragment that created them.  So we get a
+//        // parcelable error if we try to store them into a SavedStateHandle
+//        const val photoSuccessKey = "photoSuccessKey"
+//        const val takePhotoIntentKey = "takePhotoIntentKey"
+//    }
     private val appContext = getApplication<Application>().applicationContext
     private var storageDir =
         getApplication<Application>().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
@@ -50,6 +53,11 @@ class MainViewModel(application: Application,
     val fourFifthWidthPx = 4 * oneFifthWidthPx
     // assert does not work
     private lateinit var crashMe: String
+
+    // Live data
+    private var favRestaurants = MutableLiveData<List<RestaurantList>>().apply {
+        value = mutableListOf()
+    }
 
     // Venkat started here
 
@@ -96,23 +104,24 @@ class MainViewModel(application: Application,
     fun observeChat(): LiveData<List<ChatRow>> {
         return chat
     }
+
 //started here - Venkat
 
-    fun posts() = viewModelScope.launch(
+    private fun posts() = viewModelScope.launch(
         context = viewModelScope.coroutineContext
                 + Dispatchers.IO) {
         // Update LiveData from IO dispatcher, use postValue
         restaurants.postValue(cityId.value?.let { restaurantRepository.getRestaurants(it) })
     }
 
-    fun collections() =  viewModelScope.launch(
+    private fun collections() =  viewModelScope.launch(
         context = viewModelScope.coroutineContext
                 + Dispatchers.IO) {
         // Update LiveData from IO dispatcher, use postValue
         collections.postValue(cityId.value?.let { restaurantRepository.getCollections(it) })
     }
 
-    fun cities() = viewModelScope.launch(
+    private fun cities() = viewModelScope.launch(
         context = viewModelScope.coroutineContext
                 + Dispatchers.IO) {
         // Update LiveData from IO dispatcher, use postValue
@@ -126,7 +135,7 @@ class MainViewModel(application: Application,
 
     fun setLocation(newLocation: String) {
         city_name.value = newLocation
-        Log.d("XXX", "New City name: " + newLocation)
+        Log.d("XXX", "New City name: $newLocation")
         cities()
     }
 
@@ -166,9 +175,7 @@ class MainViewModel(application: Application,
                 chatRow.message
             )
         )
-        // XXX Write me.
-        // https://firebase.google.com/docs/firestore/manage-data/add-data#add_a_document
-        // Remember to set the rowID of the chatRow before saving it
+
         chatRow.rowID = db.collection("globalChat").document().id
         db.collection("globalChat")
             .document(chatRow.rowID)
@@ -229,47 +236,77 @@ class MainViewModel(application: Application,
             }
     }
 
+    // Manage favorites list
+    fun addFav(post : RestaurantList) {
+        val localList = favRestaurants.value?.toMutableList()
+        localList?.let {
+            it.add(post)
+            favRestaurants.value = it
+        }
+    }
+
+    fun isFav(post : RestaurantList): Boolean {
+        return favRestaurants.value?.contains(post) ?: false
+    }
+
+    fun removeFav(post : RestaurantList) {
+        val localList = favRestaurants.value?.toMutableList()
+        localList?.let {
+            it.remove(post)
+            favRestaurants.value = it
+        }
+    }
+
+    internal fun observeFav(): LiveData<List<RestaurantList>> {
+        return favRestaurants
+    }
+
+
     /////////////////////////////////////////////////////////////
     // This is intended to be set once by MainActivity.
     // The bummer is that taking a photo requires startActivityForResult
     // which has to be called from an activity.
-    fun setPhotoIntent(_takePhotoIntent: () -> Unit) {
-        takePhotoIntent = _takePhotoIntent
-        state.set(takePhotoIntentKey, takePhotoIntent)
-    }
+//    fun setPhotoIntent(_takePhotoIntent: () -> Unit) {
+//        takePhotoIntent = _takePhotoIntent
+//        state.set(takePhotoIntentKey, takePhotoIntent)
+//    }
 
     /////////////////////////////////////////////////////////////
     // Get callback for when camera intent returns.
     // Send intent to take picture
-    fun takePhoto(_photoSuccess: (String) -> Unit) {
-        photoSuccess = _photoSuccess
-        state.set(photoSuccessKey, photoSuccess)
-        takePhotoIntent.invoke()
-    }
+//    fun takePhoto(_photoSuccess: (String) -> Unit) {
+//        Log.d("mytag", "at the start of take photo")
+//        photoSuccess = _photoSuccess
+//        state.set(photoSuccessKey, photoSuccess)
+//        takePhotoIntent.invoke()
+//        Log.d("mytag", "at the end of take photo")
+//    }
 
     /////////////////////////////////////////////////////////////
     // Create a file for the photo, remember it, and create a Uri
-    fun getPhotoURI(): Uri {
-        // Create an image file name
-        state.set(pictureUUIDKey,  UUID.randomUUID().toString())
-        Log.d(javaClass.simpleName, "pictureUUID ${state.get<String>(pictureUUIDKey)}")
-        var photoUri: Uri? = null
-        // Create the File where the photo should go
-        try {
-            val localPhotoFile = File(storageDir, "${state.get<String>(pictureUUIDKey)}.jpg")
-            Log.d(javaClass.simpleName, "photo path ${localPhotoFile.absolutePath}")
-            photoUri = FileProvider.getUriForFile(
-                appContext,
-                "com.example.chomp",
-                localPhotoFile
-            )
-        } catch (ex: IOException) {
-            // Error occurred while creating the File
-            Log.d(javaClass.simpleName, "Cannot create file", ex)
-        }
-        // CRASH.  Production code should do something more graceful
-        return photoUri!!
-    }
+//    fun getPhotoURI(): Uri {
+//        // Create an image file name
+//        state.set(pictureUUIDKey,  UUID.randomUUID().toString())
+//        Log.d(javaClass.simpleName, "pictureUUID ${state.get<String>(pictureUUIDKey)}")
+//        var photoUri: Uri? = null
+//        // Create the File where the photo should go
+//        try {
+//            val localPhotoFile = File(storageDir, "${state.get<String>(pictureUUIDKey)}.jpg")
+//            Log.d(javaClass.simpleName, "photo path ${localPhotoFile.absolutePath}")
+//            photoUri = FileProvider.getUriForFile(
+//                appContext,
+//                "com.example.chomp",
+//                localPhotoFile
+//            )
+//            Log.d("mytag", "photo URI? ")
+//        } catch (ex: IOException) {
+//            // Error occurred while creating the File
+//            Log.d(javaClass.simpleName, "Cannot create file", ex)
+//        }
+//        // CRASH.  Production code should do something more graceful
+//        Log.d("mytag", "photo URI is " + photoUri)
+//        return photoUri!!
+//    }
     /////////////////////////////////////////////////////////////
     // Callbacks from MainActivity.getResultForActivity from camera intent
     // We can't just schedule the file upload and return.
@@ -283,26 +320,26 @@ class MainViewModel(application: Application,
     // You could imagine dealing with this somehow using local files while waiting for
     // a server interaction, but that seems error prone.
     // Freezing the app during an upload also seems bad.
-    fun pictureSuccess() {
-        val pictureUUID = state.get(pictureUUIDKey) ?: ""
-        val localPhotoFile = File(storageDir, "${pictureUUID}.jpg")
-        Log.d(javaClass.simpleName, "pictureSuccess ${localPhotoFile.absolutePath}")
-        // Wait until photo is successfully uploaded before calling back
-        Storage.uploadImage(localPhotoFile, pictureUUID) {
-            Log.d(javaClass.simpleName, "uploadImage callback ${pictureUUID}")
-            photoSuccess(pictureUUID)
-            photoSuccess = ::defaultPhoto
-            state.get<(String)->Unit>(photoSuccessKey)?.invoke(pictureUUID)
-            state.set(photoSuccessKey, ::defaultPhoto)
-            state.set(pictureUUIDKey, "")
-        }
-    }
-    fun pictureFailure() {
-        // Note, the camera intent will only create the file if the user hits accept
-        // so I've never seen this called
-        state.set(pictureUUIDKey, "")
-        Log.d(javaClass.simpleName, "pictureFailure pictureUUID cleared")
-    }
+//    fun pictureSuccess() {
+//        val pictureUUID = state.get(pictureUUIDKey) ?: ""
+//        val localPhotoFile = File(storageDir, "${pictureUUID}.jpg")
+//        Log.d(javaClass.simpleName, "pictureSuccess ${localPhotoFile.absolutePath}")
+//        // Wait until photo is successfully uploaded before calling back
+//        Storage.uploadImage(localPhotoFile, pictureUUID) {
+//            Log.d(javaClass.simpleName, "uploadImage callback ${pictureUUID}")
+//            photoSuccess(pictureUUID)
+//            photoSuccess = ::defaultPhoto
+//            state.get<(String)->Unit>(photoSuccessKey)?.invoke(pictureUUID)
+//            state.set(photoSuccessKey, ::defaultPhoto)
+//            state.set(pictureUUIDKey, "")
+//        }
+//    }
+//    fun pictureFailure() {
+//        // Note, the camera intent will only create the file if the user hits accept
+//        // so I've never seen this called
+//        state.set(pictureUUIDKey, "")
+//        Log.d(javaClass.simpleName, "pictureFailure pictureUUID cleared")
+//    }
 
     // For our phone, translate dp to pixels
     private fun dpToPx(dp: Int): Int {
@@ -310,14 +347,26 @@ class MainViewModel(application: Application,
     }
 
     fun glideFetch(pictureUUID: String, imageView: ImageView) {
-        // NB: Should get apsect ratio from image itself
-       // Glide.fetch(Storage.uuid2StorageReference(pictureUUID), imageView,
-       //     fourFifthWidthPx, (1.466*fourFifthWidthPx).toInt())
+        Glide.fetch(Storage.uuid2StorageReference(pictureUUID), imageView,
+            fourFifthWidthPx, (1.466*fourFifthWidthPx).toInt())
     }
-    // Debatable how useful this is.
+
+
     override fun onCleared() {
         Log.d(javaClass.simpleName, "onCleared!!")
         super.onCleared()
         chatListener?.remove()
+    }
+
+    // Convenient place to put it as it is shared
+    companion object {
+        fun launchPost(context: Context, restaurant: RestaurantList) {
+            val intent = Intent(context, RestaurantProfile::class.java)
+            intent.putExtra("name", restaurant.name.toString())
+            intent.putExtra("cuisine", restaurant.cuisines.toString())
+            intent.putExtra("cost", restaurant.cost)
+            intent.putExtra("imageURL", restaurant.imageURL)
+            context.startActivity(intent)
+        }
     }
 }

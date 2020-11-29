@@ -11,8 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.chomp.*
+import com.example.chomp.adapters.FirestoreChatAdapter
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.chat_page.*
 
@@ -75,6 +75,7 @@ class ChatFragment :
             }
         }
     }
+
     // Something might have changed.  Redo query
     override fun onResume() {
         super.onResume()
@@ -105,21 +106,19 @@ class ChatFragment :
             }
             true
         }
-        composeCameraIB.setOnClickListener {
-            viewModel.takePhoto {
-                Log.d("mytag", "take photo please?")
-
-                Log.d(javaClass.simpleName, "uuid $it")
-                fragmentUUID = it
-                composePreviewIV.doOnLayout {view ->
-                    view.updateLayoutParams {
-                        width = viewModel.fourFifthWidthPx
-                    }
-                }
-                composePreviewIV.visibility = View.VISIBLE
-                viewModel.glideFetch(it, composePreviewIV)
-            }
-        }
+//        composeCameraIB.setOnClickListener {
+//            viewModel.takePhoto {
+//                Log.d(javaClass.simpleName, "uuid $it")
+//                fragmentUUID = it
+//                composePreviewIV.doOnLayout {view ->
+//                    view.updateLayoutParams {
+//                        width = viewModel.fourFifthWidthPx
+//                    }
+//                }
+//                composePreviewIV.visibility = View.VISIBLE
+//                viewModel.glideFetch(it, composePreviewIV)
+//            }
+//        }
         composePreviewIV.visibility = View.GONE
     }
 

@@ -1,9 +1,6 @@
 package com.example.chomp.view
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.chomp.*
 import com.example.chomp.adapters.CollectionAdapter
-import kotlinx.android.synthetic.main.fragment_home.*
+import com.example.chomp.adapters.RowAdapter
 
 class HomeFragment :
         Fragment(R.layout.fragment_home) {
@@ -27,11 +24,6 @@ class HomeFragment :
     private lateinit var adapter: RowAdapter
     private lateinit var collectionAdapter: CollectionAdapter
 
-    companion object {
-        fun newInstance(): HomeFragment {
-            return HomeFragment()
-        }
-    }
 
     private fun initSwipeLayout(root: View) {
         swipe = root.findViewById(R.id.swipeRefreshLayout)
@@ -89,6 +81,7 @@ class HomeFragment :
         adapter = RowAdapter(viewModel)
         rv.layoutManager = LinearLayoutManager(root.context, LinearLayoutManager.VERTICAL, false)
         rv.adapter = adapter
+
 
         viewModel.observePosts().observe(viewLifecycleOwner,
             {

@@ -37,6 +37,12 @@
             android:id="@+id/action_to_ChatFragment"
             app:destination="@+id/chatFragment"
             />
+
+        <action
+            android:id="@+id/action_to_FavoritesFragment"
+            app:destination="@+id/favoritesFragment"
+            />
+
     </fragment>
 
     <fragment
@@ -54,7 +60,15 @@
         android:id="@+id/settingsFragment"
         android:name="com.example.chomp.view.Settings"
         android:label="SettingsFragment"
-        tools:layout="@layout/settings">
+        tools:layout="@layout/settings_layout">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.example.chomp.view.Favorites"
+        android:label="FavoritesFragment"
+        tools:layout="@layout/fragment_rv">
 
     </fragment>
 

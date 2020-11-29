@@ -1,4 +1,4 @@
-package com.example.chomp
+package com.example.chomp.adapters
 
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -9,8 +9,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chomp.MainViewModel
+import com.example.chomp.R
 import com.example.chomp.api.RestaurantList
-import edu.example.chomp.glide.Glide
+import com.example.chomp.glide.Glide
 
 class RowAdapter(private val viewModel: MainViewModel)
     : ListAdapter<RestaurantList, RowAdapter.VH>(RestaurantDiff()) {
@@ -48,12 +50,22 @@ class RowAdapter(private val viewModel: MainViewModel)
         private var cuisine = view.findViewById<TextView>(R.id.cuisineTV)
         private var cost = view.findViewById<TextView>(R.id.costTV)
         private var address = view.findViewById<TextView>(R.id.addressTV)
-
+        private var favorited = view.findViewById<ImageView>(R.id.bookmarkBut)
 
         init {
             view.setOnClickListener {
-                // TODO: Complete launchPost
-//                MainViewModel.launchPost(view.context, getItem(adapterPosition))
+                MainViewModel.launchPost(view.context, getItem(adapterPosition))
+            }
+            favorited.setOnClickListener {
+                val position = adapterPosition
+                // Toggle favorite
+                if (viewModel.isFav(getItem(position))) {
+                    viewModel.removeFav(getItem(position))
+                    favorited.setImageResource(R.drawable.ic_baseline_bookmark_empty_round)
+                } else {
+                    viewModel.addFav(getItem(position))
+                    favorited.setImageResource(R.drawable.ic_baseline_bookmark_filled_round)
+                }
             }
         }
 
@@ -75,7 +87,8 @@ class RowAdapter(private val viewModel: MainViewModel)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         return VH(
-            LayoutInflater.from(parent.context).inflate(R.layout.row_restaurant,
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.row_restaurant,
             parent, false))
     }
 

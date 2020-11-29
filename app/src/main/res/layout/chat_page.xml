@@ -46,12 +46,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         >
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/composeCameraIB"
-            android:background="@drawable/ic_menu_camera"
-            />
+
+
         <!-- imeOptions will allow me to fire text and collapse
              soft keyboard when user hits "enter" -->
         <EditText

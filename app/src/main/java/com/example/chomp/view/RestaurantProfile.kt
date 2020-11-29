@@ -3,7 +3,7 @@ package com.example.chomp.view
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chomp.R
-import edu.example.chomp.glide.Glide
+import com.example.chomp.glide.Glide
 import kotlinx.android.synthetic.main.restaurant_profile.*
 
 class RestaurantProfile : AppCompatActivity() {
