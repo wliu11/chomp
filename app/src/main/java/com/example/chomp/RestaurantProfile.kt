@@ -1,4 +1,4 @@
-package com.example.chomp.view
+package com.example.chomp
 
 import android.os.Bundle
 import android.util.Log
@@ -21,12 +21,13 @@ class RestaurantProfile : AppCompatActivity() {
         // Todo: Change the getString to getInt because cost should be an integer
         restaurantCost.text = restaurant?.getString("cost")
         restaurantDescription.text = restaurant?.getString("cuisine")
-//        restaurantPhone.text = restaurant?.getInt("restaurant phone number").toString()
+        restaurantPhone.text = restaurant?.getInt("phone").toString()
+        restaurantHighlights.text = restaurant?.getString("highlights")
+        restaurantMenu.text = restaurant?.getString("menu")
 
         val imageURL = restaurant!!.getString("imageURL")
         val thumbURL = restaurant.getString("thumbnailURL")
-        Log.d("mytag", "restaurant image url is " + imageURL)
-        Log.d("mytag", "restaurant thumbnail url is " + thumbURL)
+
         Glide.glideFetch(imageURL, thumbURL, restaurantIcon)
     }
 }

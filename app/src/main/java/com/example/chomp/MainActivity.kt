@@ -47,8 +47,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        viewModel.setPhotoIntent(::takePhotoIntent)
-
         initUserUI()
         val authInitIntent = Intent(this, AuthInitActivity::class.java)
         startActivity(authInitIntent)

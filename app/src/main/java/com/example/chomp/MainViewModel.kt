@@ -3,11 +3,9 @@ package com.example.chomp
 import android.app.Application
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Environment
 import android.util.Log
 import android.widget.ImageView
-import androidx.core.content.FileProvider
 import androidx.lifecycle.*
 import com.example.chomp.api.CollectionList
 import com.example.chomp.api.RestaurantList
@@ -18,11 +16,8 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.example.chomp.glide.Glide
-import com.example.chomp.view.RestaurantProfile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.File
-import java.io.IOException
 import java.util.*
 
 
@@ -193,11 +188,6 @@ class MainViewModel(application: Application,
     }
 
     fun deleteChatRow(chatRow: ChatRow){
-        // Delete picture (if any) on the server, asynchronously
-        val uuid = chatRow.pictureUUID
-        if(uuid != null) {
-            Storage.deleteImage(uuid)
-        }
         Log.d("mytag", "remote chatRow id: ${chatRow.rowID}")
 
         // XXX delete chatRow
@@ -373,6 +363,11 @@ class MainViewModel(application: Application,
             intent.putExtra("cost", restaurant.cost.toString())
             intent.putExtra("imageURL", restaurant.imageURL.toString())
             intent.putExtra("thumbnailURL", restaurant.thumbnailURL)
+            intent.putExtra("menu", restaurant.menu)
+            intent.putStringArrayListExtra("highlights",
+                restaurant.highlights.toMutableList() as ArrayList<String>?
+            )
+            intent.putExtra("phone", restaurant.phone)
             context.startActivity(intent)
         }
     }

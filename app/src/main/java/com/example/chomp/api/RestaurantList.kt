@@ -43,7 +43,13 @@ data class RestaurantList (
     @SerializedName("currency")
     val currency: String?,
     @SerializedName("location")
-    val locality: Location?
+    val locality: Location?,
+    @SerializedName("highlights")
+    val highlights: List<String>,
+    @SerializedName("menu_url")
+    val menu: String?,
+    @SerializedName("phone")
+    val phone: Int
     ) {
     companion object {
         // NB: This only highlights the first match

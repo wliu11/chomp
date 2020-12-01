@@ -4,49 +4,94 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_gravity="center_vertical"
+        android:padding="20dp"
+        android:gravity="center"
         >
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/restaurantIcon"
+            android:padding="20dp"
+            android:src="@drawable/ic_baseline_bookmark_empty_round"
             />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/restaurantName"
+            android:textSize="30sp"
+            android:text="restaurant name"
             />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/restaurantType"
+            android:textSize="20sp"
+            android:layout_gravity="start"
+            android:text="restaurant type"
             />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/restaurantCost"
+            android:text="restaurant cost"
+            android:layout_gravity="start"
+            android:textSize="20sp"
             />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/restaurantDescription"
+            android:textSize="20sp"
+            android:layout_gravity="start"
+            android:text="restaurant description"
             />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/restaurantPhone"
+            android:textSize="20sp"
+            android:layout_gravity="start"
+            android:text="restaurant phone number"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/restaurantMenu"
+            android:textSize="20sp"
+            android:layout_gravity="start"
+            android:text="restaurant menu URL"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/restaurantHighlights"
+            android:textSize="20sp"
+            android:layout_gravity="start"
+            android:text="restaurant highlights"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/restaurantURl"
+            android:textSize="20sp"
+            android:layout_gravity="start"
+            android:text="restaurant URL"
             />
 
     </LinearLayout>

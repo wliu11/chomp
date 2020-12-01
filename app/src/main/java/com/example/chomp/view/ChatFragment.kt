@@ -68,7 +68,7 @@ class ChatFragment :
                         ownerUid = cUser.uid
                     }
                     message = composeMessageET.text.toString()
-                    pictureUUID = fragmentUUID
+//                    pictureUUID = fragmentUUID
                     clearCompose()
                 }
                 viewModel.saveChatRow(chatRow)

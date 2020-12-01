@@ -28,7 +28,7 @@ class FirestoreChatAdapter(private var viewModel: MainViewModel)
             return oldItem.name == newItem.name
                     && oldItem.ownerUid == newItem.ownerUid
                     && oldItem.message == newItem.message
-                    && oldItem.pictureUUID == newItem.pictureUUID
+//                    && oldItem.pictureUUID == newItem.pictureUUID
                     && oldItem.timeStamp == newItem.timeStamp
         }
     }
