@@ -48,8 +48,10 @@ data class RestaurantList (
     val highlights: List<String>,
     @SerializedName("menu_url")
     val menu: String?,
-    @SerializedName("phone")
-    val phone: Int
+    @SerializedName("phone_numbers")
+    val phone: String?,
+    @SerializedName("url")
+    val url: String?,
     ) {
     companion object {
         // NB: This only highlights the first match

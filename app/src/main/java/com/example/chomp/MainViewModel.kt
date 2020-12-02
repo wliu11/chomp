@@ -352,12 +352,9 @@ class MainViewModel(application: Application,
     companion object {
         fun launchPost(context: Context, restaurant: RestaurantList) {
             val intent = Intent(context, RestaurantProfile::class.java)
-            Log.d("mytag", "restaurant name is " + restaurant.name.toString())
-            Log.d("mytag", "restaurant cuisine is " + restaurant.cuisines.toString())
-            Log.d("mytag", "restaurant cost is " + restaurant.cost.toString())
-            Log.d("mytag", "restaurant image url is " + restaurant.imageURL.toString())
-            Log.d("mytag", "restaurant thumbnail url is " + restaurant.thumbnailURL)
 
+            Log.d("mytag", "phone num i s" + restaurant.phone)
+            Log.d("mytag", "website url is " + restaurant.url)
             intent.putExtra("name", restaurant.name.toString())
             intent.putExtra("cuisine", restaurant.cuisines.toString())
             intent.putExtra("cost", restaurant.cost.toString())
@@ -368,6 +365,7 @@ class MainViewModel(application: Application,
                 restaurant.highlights.toMutableList() as ArrayList<String>?
             )
             intent.putExtra("phone", restaurant.phone)
+            intent.putExtra("url", restaurant.url)
             context.startActivity(intent)
         }
     }
