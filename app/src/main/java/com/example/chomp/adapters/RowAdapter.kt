@@ -1,11 +1,16 @@
 package com.example.chomp.adapters
 
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -53,9 +58,11 @@ class RowAdapter(private val viewModel: MainViewModel)
         private var favorited = view.findViewById<ImageView>(R.id.bookmarkBut)
 
         init {
+
             view.setOnClickListener {
                 MainViewModel.launchPost(view.context, getItem(adapterPosition))
             }
+
             favorited.setOnClickListener {
                 val position = adapterPosition
                 // Toggle favorite
@@ -73,16 +80,17 @@ class RowAdapter(private val viewModel: MainViewModel)
         fun bind(item: RestaurantList) {
             restaurantName.text = item.name
             when {
-                item.user_rating.aggregate_rating!! >= 4.0 -> rating.setTextColor(Color.GREEN)
+                item.user_rating?.aggregate_rating!! >= 4.0 -> rating.setTextColor(Color.GREEN)
                 item.user_rating.aggregate_rating >= 3.0 && item.user_rating.aggregate_rating < 4.0 -> rating.setTextColor(Color.BLUE)
                 item.user_rating.aggregate_rating < 3.0 -> rating.setTextColor(Color.RED)
             }
-            rating.text = item.user_rating.aggregate_rating.toString()
+            rating.text = item.user_rating?.aggregate_rating.toString()
             cuisine.text = item.cuisines
             cost.text = StringBuilder().append(item.currency).append(item.cost).append(" ").append("for two")
             address.text = item.locality?.locality_verbose.toString()
             Glide.glideFetch(item.imageURL.toString(),item.thumbnailURL,image)
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
@@ -95,4 +103,5 @@ class RowAdapter(private val viewModel: MainViewModel)
     override fun onBindViewHolder(holder: VH, position: Int) {
         holder.bind(getItem(position))
     }
+
 }

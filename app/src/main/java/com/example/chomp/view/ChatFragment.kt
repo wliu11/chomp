@@ -1,5 +1,6 @@
 package com.example.chomp.view
 
+import android.content.Intent.getIntent
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -13,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chomp.*
 import com.example.chomp.adapters.FirestoreChatAdapter
+import com.example.chomp.api.RestaurantList
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.chat_page.*
 
@@ -24,9 +26,14 @@ class ChatFragment :
     private var currentUser: FirebaseUser? = null
     private var fragmentUUID: String? = null
 
+    companion object {
+        fun newInstance(): ChatFragment {
+            return ChatFragment()
+        }
+    }
 
     private fun scrollToEnd() =
-        (chatAdapter.itemCount - 1).takeIf { it > 0 }?.let(chatRV::smoothScrollToPosition)
+    (chatAdapter.itemCount - 1).takeIf { it > 0 }?.let(chatRV::smoothScrollToPosition)
 
     private fun initRecyclerView() {
         chatAdapter = FirestoreChatAdapter(viewModel)
@@ -51,8 +58,6 @@ class ChatFragment :
         fragmentUUID = null
     }
 
-    // For our phone, translate dp to pixels
-
     private fun initComposeSendIB() {
         // Send message button
         composeSendIB.setOnClickListener {
@@ -68,7 +73,6 @@ class ChatFragment :
                         ownerUid = cUser.uid
                     }
                     message = composeMessageET.text.toString()
-//                    pictureUUID = fragmentUUID
                     clearCompose()
                 }
                 viewModel.saveChatRow(chatRow)
@@ -94,6 +98,7 @@ class ChatFragment :
             chatAdapter.submitList(it)
         })
 
+
         composeMessageET.setOnEditorActionListener { /*v*/_, actionId, event ->
             // If user has pressed enter, or if they hit the soft keyboard "send" button
             // (which sends DONE because of the XML)
@@ -106,19 +111,7 @@ class ChatFragment :
             }
             true
         }
-//        composeCameraIB.setOnClickListener {
-//            viewModel.takePhoto {
-//                Log.d(javaClass.simpleName, "uuid $it")
-//                fragmentUUID = it
-//                composePreviewIV.doOnLayout {view ->
-//                    view.updateLayoutParams {
-//                        width = viewModel.fourFifthWidthPx
-//                    }
-//                }
-//                composePreviewIV.visibility = View.VISIBLE
-//                viewModel.glideFetch(it, composePreviewIV)
-//            }
-//        }
+
         composePreviewIV.visibility = View.GONE
     }
 

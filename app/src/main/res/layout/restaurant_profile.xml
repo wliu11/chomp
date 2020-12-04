@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/page"
     tools:context=".MainActivity"
     >
 
@@ -31,6 +32,13 @@
             android:text="restaurant name"
             />
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/shareBut"
+            android:src="@drawable/ic_baseline_share_24"
+            />
+
         <RatingBar
             android:id="@+id/ratingBar"
             android:layout_width="wrap_content"
@@ -52,15 +60,7 @@
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
             android:text="Submit Rating"/>
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:id="@+id/restaurantType"-->
-<!--            android:textSize="20sp"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:padding="8dp"-->
-<!--            android:text="Leave a review"-->
-<!--            />-->
+
 
         <TextView
             android:layout_width="wrap_content"
@@ -118,6 +118,13 @@
             android:layout_gravity="start"
             android:text="restaurant URL"
             />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/reviews"
+            />
+
 
     </LinearLayout>
 

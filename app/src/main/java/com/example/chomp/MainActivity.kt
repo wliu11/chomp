@@ -8,6 +8,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBar
@@ -15,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.onNavDestinationSelected
@@ -28,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initUserUI() {
         viewModel.observeFirebaseAuthLiveData().observe(this, Observer {
-            if( it == null ) {
+            if (it == null) {
                 Log.d("mytag", "No one is signed in")
             } else {
                 Log.d("mytag", "${it.displayName} ${it.email} ${it.uid} signed in")
@@ -87,35 +89,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-    // Need home fragment
-    companion object {
-        const val cameraRC = 10
-    }
-//
-//    private fun takePhotoIntent() {
-//        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePhotoIntent ->
-//            takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, viewModel.getPhotoURI())
-//            startActivityForResult(takePhotoIntent, cameraRC)
-//        }
-//        Log.d(javaClass.simpleName, "takePhotoIntent")
-//    }
-
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        Log.d(javaClass.simpleName, "onActivityResult")
-//        when (requestCode) {
-//            cameraRC -> {
-//                if (resultCode == RESULT_OK) {
-//                    viewModel.pictureSuccess()
-//                } else {
-//                    viewModel.pictureFailure()
-//                }
-//            }
-//        }
-//    }
-
-
     override fun onSupportNavigateUp() = navigationController.navigateUp()
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -130,5 +103,10 @@ class MainActivity : AppCompatActivity() {
         return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Log.d("mytag", "onActivityResult")
+        Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.chatFragment)
+    }
 
 }

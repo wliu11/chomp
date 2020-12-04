@@ -33,17 +33,7 @@ class HomeFragment :
     }
 
     private fun actionSearch(root: View) {
-//        activity
-//            ?.findViewById<EditText>(R.id.locationET)
-//            ?.addTextChangedListener(object : TextWatcher {
-//                override fun afterTextChanged(cityName: Editable?) {}
-//                override fun beforeTextChanged(
-//                    cityName: CharSequence?, start: Int, count: Int, after: Int) {}
-//                override fun onTextChanged(cityName: CharSequence, start: Int, before: Int, count: Int) {
-//                    if(cityName.isEmpty()) (activity as MainActivity).hideKeyboard()
-//                    viewModel.setLocation(cityName.toString())
-//                }
-//            })
+
         val location = root.findViewById<EditText>(R.id.locationET)
         location
             .setOnEditorActionListener { /*v*/_, actionId, event ->

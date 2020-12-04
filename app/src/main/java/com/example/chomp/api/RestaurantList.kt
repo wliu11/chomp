@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
-import androidx.core.text.clearSpans
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.annotations.SerializedName
 
@@ -27,15 +26,15 @@ data class Location(
 //    val title: SpannableString
 //)
 
-data class RestaurantList (
+data class RestaurantList(
     @SerializedName("name")
     val name: String?,
     @SerializedName("thumb")
     val thumbnailURL: String,
     @SerializedName("featured_image")
-    val imageURL: SpannableString?,
+    val imageURL: String?,
     @SerializedName("user_rating")
-    val user_rating: User_Rating,
+    val user_rating: User_Rating?,
     @SerializedName("cuisines")
     val cuisines: String?,
     @SerializedName("average_cost_for_two")
