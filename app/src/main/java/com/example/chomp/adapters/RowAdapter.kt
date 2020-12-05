@@ -1,11 +1,16 @@
 package com.example.chomp.adapters
 
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -53,9 +58,11 @@ class RowAdapter(private val viewModel: MainViewModel)
         private var favorited = view.findViewById<ImageView>(R.id.bookmarkBut)
 
         init {
+
             view.setOnClickListener {
                 MainViewModel.launchPost(view.context, getItem(adapterPosition))
             }
+
             favorited.setOnClickListener {
                 val position = adapterPosition
                 // Toggle favorite
@@ -83,6 +90,7 @@ class RowAdapter(private val viewModel: MainViewModel)
             address.text = item.locality?.locality_verbose.toString()
             Glide.glideFetch(item.imageURL.toString(),item.thumbnailURL.toString(),image)
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
@@ -95,4 +103,5 @@ class RowAdapter(private val viewModel: MainViewModel)
     override fun onBindViewHolder(holder: VH, position: Int) {
         holder.bind(getItem(position))
     }
+
 }

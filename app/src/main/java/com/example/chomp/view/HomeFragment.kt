@@ -40,6 +40,7 @@ class HomeFragment :
     private fun actionSearch(root: View) {
 
         val location: AutoCompleteTextView = root.findViewById(R.id.locationET)
+        location.dropDownWidth = 600
         val goBut = root.findViewById<Button>(R.id.goBut)
 
         viewModel.getAllCities().observe(viewLifecycleOwner,

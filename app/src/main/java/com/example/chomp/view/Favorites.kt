@@ -42,19 +42,6 @@ class Favorites : Fragment() {
                 adapter.notifyDataSetChanged()
             })
 
-//        viewModel.setReddit(false)
-//        viewModel.setSubredditFilt(false)
-//        viewModel.setFaveFilt(true)
-
-//        viewModel.observeLiveReddits().observe(viewLifecycleOwner,
-//            Observer {list ->
-//                viewModel.observeSearchTerm().observe(viewLifecycleOwner,
-//                    Observer {
-//                        adapter.submitList(list)
-//                        adapter.notifyDataSetChanged()
-//                    })
-//            })
-
         return root
     }
 

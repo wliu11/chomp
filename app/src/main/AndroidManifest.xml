@@ -36,7 +36,7 @@
         </activity>
         <activity android:name=".AuthInitActivity"
             />
-        <activity android:name=".view.RestaurantProfile"
+        <activity android:name=".RestaurantProfile"
             />
 
     </application>

@@ -18,7 +18,6 @@ import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.chomp.MainActivity.Companion.cameraRC
 import com.example.chomp.MainViewModel
 import com.example.chomp.R
 import kotlinx.android.synthetic.main.profile_layout.*
@@ -55,8 +54,8 @@ class Profile : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-        Log.d("mytag", "on view created")
+        super.onViewCreated(view, savedInstanceState)
+
         // Set click listener so that user can change profile picture by clicking on it
         profilePic.setOnClickListener {
             val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)

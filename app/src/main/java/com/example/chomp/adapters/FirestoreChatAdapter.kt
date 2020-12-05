@@ -28,7 +28,7 @@ class FirestoreChatAdapter(private var viewModel: MainViewModel)
             return oldItem.name == newItem.name
                     && oldItem.ownerUid == newItem.ownerUid
                     && oldItem.message == newItem.message
-                    && oldItem.pictureUUID == newItem.pictureUUID
+//                    && oldItem.pictureUUID == newItem.pictureUUID
                     && oldItem.timeStamp == newItem.timeStamp
         }
     }
@@ -48,12 +48,10 @@ class FirestoreChatAdapter(private var viewModel: MainViewModel)
         private var myTimeTV = itemView.findViewById<TextView>(R.id.chatTimeTV)
         private var myTextTV = itemView.findViewById<TextView>(R.id.chatTextTV)
         private var myTextCV = itemView.findViewById<CardView>(R.id.textCV)
-//        private var myPicIV = itemView.findViewById<ImageView>(R.id.picIV)
         private var otherUserTV = itemView.findViewById<TextView>(R.id.otherChatUserTV)
         private var otherTimeTV = itemView.findViewById<TextView>(R.id.otherChatTimeTV)
         private var otherTextTV = itemView.findViewById<TextView>(R.id.otherChatTextTV)
         private var otherTextCV = itemView.findViewById<CardView>(R.id.otherTextCV)
-//        private var otherPicIV = itemView.findViewById<ImageView>(R.id.otherPicIV)
         init {
             myTextCV.isLongClickable = true
         }
@@ -63,7 +61,6 @@ class FirestoreChatAdapter(private var viewModel: MainViewModel)
             timeTV.visibility = View.GONE
             textTV.visibility = View.GONE
             textCV.visibility = View.GONE
-//            picIV.visibility = View.GONE
         }
         private fun visibleElements(userTV: TextView, timeTV: TextView, textTV: TextView,
                                     textCV: CardView) {
@@ -71,7 +68,6 @@ class FirestoreChatAdapter(private var viewModel: MainViewModel)
             timeTV.visibility = View.VISIBLE
             textTV.visibility = View.VISIBLE
             textCV.visibility = View.VISIBLE
-//            picIV.visibility = View.VISIBLE
         }
         private fun bindElements(item: ChatRow, backgroundColor: Int, textColor: Int,
                                  userTV: TextView, timeTV: TextView, textTV: TextView,

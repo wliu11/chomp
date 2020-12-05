@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
-import androidx.core.text.clearSpans
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.annotations.SerializedName
 
@@ -18,13 +17,13 @@ data class Location(
     val locality_verbose: SpannableString?
 )
 
-data class RestaurantList (
+data class RestaurantList(
     @SerializedName("name")
     val name: String?,
     @SerializedName("thumb")
     val thumbnailURL: String?,
     @SerializedName("featured_image")
-    val imageURL: SpannableString?,
+    val imageURL: String?,
     @SerializedName("user_rating")
     val user_rating: User_Rating?,
     @SerializedName("cuisines")
@@ -34,7 +33,15 @@ data class RestaurantList (
     @SerializedName("currency")
     val currency: String?,
     @SerializedName("location")
-    val locality: Location?
+    val locality: Location?,
+    @SerializedName("highlights")
+    val highlights: List<String>,
+    @SerializedName("menu_url")
+    val menu: String?,
+    @SerializedName("phone_numbers")
+    val phone: String?,
+    @SerializedName("url")
+    val url: String?,
     ) {
     companion object {
         // NB: This only highlights the first match
