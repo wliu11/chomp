@@ -49,6 +49,7 @@ class RestaurantProfile : AppCompatActivity() {
             if (rec != null) {
                 viewModel.newRecommendation(rec)
             }
+
         }
 
         restaurantName.text = name
@@ -67,10 +68,16 @@ class RestaurantProfile : AppCompatActivity() {
 
         viewModel.recommendation.observe(this, Observer {
             Log.d("mytag", "can we update the chat?")
-            val navController = (supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
-                    as? NavHostFragment)?.navController
-            navController?.navigate(R.id.chatFragment)
+//            val navController = (supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+//                    as NavHostFragment).navController
+//            val navController = findNavController(parentActivityIntent.)
+//            Log.d("mytag", "current dest " + navController.currentDestination?.id)
+//            if (navController.currentDestination?.id == R.id.chatFragment) // Id as per set up on nav_graph.xml file
+//            {/
+//                Log.d("mytag", "matches")
+        //
+//             navController.navigate(R.id.chatFragment)
+//            }
         })
     }
-
 }

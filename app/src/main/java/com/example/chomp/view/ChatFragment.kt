@@ -83,6 +83,7 @@ class ChatFragment :
     // Something might have changed.  Redo query
     override fun onResume() {
         super.onResume()
+
         viewModel.getChat()
     }
 
@@ -94,7 +95,6 @@ class ChatFragment :
         initRecyclerView()
 
         viewModel.observeChat().observe(viewLifecycleOwner, Observer {
-            Log.d(javaClass.simpleName, "Observe Chat $it")
             chatAdapter.submitList(it)
         })
 
