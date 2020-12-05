@@ -1,12 +1,13 @@
 package com.example.chomp.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +25,10 @@ class HomeFragment :
     private lateinit var adapter: RowAdapter
     private lateinit var collectionAdapter: CollectionAdapter
 
+    private fun setCity(newTitle: String) {
+        activity?.findViewById<TextView>(R.id.currentCity)?.text = newTitle
+    }
+
 
     private fun initSwipeLayout(root: View) {
         swipe = root.findViewById(R.id.swipeRefreshLayout)
@@ -33,39 +38,46 @@ class HomeFragment :
     }
 
     private fun actionSearch(root: View) {
-//        activity
-//            ?.findViewById<EditText>(R.id.locationET)
-//            ?.addTextChangedListener(object : TextWatcher {
-//                override fun afterTextChanged(cityName: Editable?) {}
-//                override fun beforeTextChanged(
-//                    cityName: CharSequence?, start: Int, count: Int, after: Int) {}
-//                override fun onTextChanged(cityName: CharSequence, start: Int, before: Int, count: Int) {
-//                    if(cityName.isEmpty()) (activity as MainActivity).hideKeyboard()
-//                    viewModel.setLocation(cityName.toString())
-//                }
-//            })
-        val location = root.findViewById<EditText>(R.id.locationET)
+
+        val location: AutoCompleteTextView = root.findViewById(R.id.locationET)
+        val goBut = root.findViewById<Button>(R.id.goBut)
+
+        viewModel.getAllCities().observe(viewLifecycleOwner,
+            {
+                val theAdapter = ArrayAdapter(root.context,android.R.layout.simple_list_item_single_choice, it)
+                location.setAdapter(theAdapter)
+        })
+
+        goBut.setOnClickListener {
+            val count = viewModel.getCityCount(location.text.toString())
+            if(location.text.toString().isNotEmpty() && count >0){
+                viewModel.setLocation(location.text.toString())
+                location.text.clear()
+            }
+
+            else{
+                Toast.makeText(root.context, "Invalid Location", Toast.LENGTH_SHORT).show()
+                location.text.clear()
+            }
+
+            (activity as MainActivity).hideKeyboard()
+        }
+
         location
             .setOnEditorActionListener { /*v*/_, actionId, event ->
-            // If user has pressed enter, or if they hit the soft keyboard "send" button
-            // (which sends DONE because of the XML)
             if ((event != null
                         &&(event.action == KeyEvent.ACTION_DOWN)
                         &&(event.keyCode == KeyEvent.KEYCODE_ENTER))
                 || (actionId == EditorInfo.IME_ACTION_DONE)) {
                 (activity as MainActivity).hideKeyboard()
-
-                if(location.text.toString().isNotEmpty()){
-
-                    viewModel.setLocation(location.text.toString())
-                }
+                goBut.callOnClick()
             }
             false
         }
     }
 
     private fun initAdapter(root: View) {
-        // Initializing recyclerView
+
         val rvCollection = root.findViewById<RecyclerView>(R.id.horizontalRV)
         collectionAdapter = CollectionAdapter(viewModel)
         rvCollection.layoutManager = LinearLayoutManager(root.context, LinearLayoutManager.HORIZONTAL, false)
@@ -82,6 +94,11 @@ class HomeFragment :
         rv.layoutManager = LinearLayoutManager(root.context, LinearLayoutManager.VERTICAL, false)
         rv.adapter = adapter
 
+        viewModel.observeDummy().observe(viewLifecycleOwner,
+            {
+                adapter.submitList(it)
+                adapter.notifyDataSetChanged()
+            })
 
         viewModel.observePosts().observe(viewLifecycleOwner,
             {
@@ -96,6 +113,9 @@ class HomeFragment :
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewModel.observeCity().observe(viewLifecycleOwner,{
+            setCity(it)
+        })
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         initSwipeLayout(view)
         initAdapter(view)

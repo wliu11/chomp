@@ -104,14 +104,14 @@ object Glide {
             .asBitmap() // Try to display animated Gifs and video still
             .load(fromHtml(urlString))
             .apply(glideOptions1)
-            .error(R.color.colorAccent)
+            .error(R.drawable.penguin)
             .override(width, height)
             .error(
                 GlideApp.with(imageView.context)
                     .asBitmap()
                     .load(fromHtml(thumbnailURL))
                     .apply(glideOptions)
-                    .error(R.color.colorAccent)
+                    .error(R.drawable.penguin)
                     .override(500, 500)
             )
             .into(imageView)

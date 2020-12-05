@@ -3,6 +3,7 @@ package com.example.chomp
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import android.database.sqlite.SQLiteDatabase
 import android.net.Uri
 import android.os.Environment
 import android.util.Log
@@ -18,6 +19,8 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.example.chomp.glide.Glide
+import com.example.chomp.roomdb.City
+import com.example.chomp.roomdb.CityRepository
 import com.example.chomp.view.RestaurantProfile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -64,13 +67,17 @@ class MainViewModel(application: Application,
     private var restaurantApi = RestaurantApi.create()
     private var restaurantRepository = RestaurantListRepository(restaurantApi)
     private var restaurants = MutableLiveData<List<RestaurantList>>()
-    private var city_name = MutableLiveData<String>().apply {
+    private var cityName = MutableLiveData<String>().apply {
         value = "Austin,TX"
     }
     private var cityId = MutableLiveData<Int>().apply {
         value = 278
     }
     private var collections = MutableLiveData<List<CollectionList>>()
+
+    private val cityRepository = CityRepository(application)
+    private val allCities = cityRepository.getAllCities()
+
 
     //Venkat end here
 
@@ -121,46 +128,51 @@ class MainViewModel(application: Application,
         collections.postValue(cityId.value?.let { restaurantRepository.getCollections(it) })
     }
 
-    private fun cities() = viewModelScope.launch(
-        context = viewModelScope.coroutineContext
-                + Dispatchers.IO) {
-        // Update LiveData from IO dispatcher, use postValue
-        cityId.postValue(city_name.value?.let { restaurantRepository.getCityID(it)?.id })
-    }
-
     init {
-        posts()
-        collections()
+
     }
 
     fun setLocation(newLocation: String) {
-        city_name.value = newLocation
+        cityName.value = newLocation
         Log.d("XXX", "New City name: $newLocation")
-        cities()
+        cityId.postValue(cityRepository.getCityId(newLocation))
+    }
+
+    fun getCityCount(newLocation: String): Int {
+        return cityRepository.getCityCount(newLocation)
     }
 
     private var  newRestaurants = MediatorLiveData<List<RestaurantList>>().apply {
 
         addSource(cityId) {value = newList()}
-        //addSource(restaurants) {value = newList()}
 
-        // Initial value
         value = restaurants.value
     }
 
     private fun newList(): List<RestaurantList>? {
-       // cities()
         posts()
         collections()
         return restaurants.value
     }
 
     fun observePosts(): LiveData<List<RestaurantList>> {
+        return restaurants
+    }
+
+    fun observeDummy(): LiveData<List<RestaurantList>> {
         return newRestaurants
     }
 
     fun observeCollections(): LiveData<List<CollectionList>> {
         return collections
+    }
+
+    fun getAllCities(): LiveData<List<String>> {
+        return allCities
+    }
+
+    fun observeCity(): LiveData<String> {
+        return cityName
     }
 
 //End here - Venkat

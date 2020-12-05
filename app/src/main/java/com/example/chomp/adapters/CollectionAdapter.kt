@@ -56,7 +56,8 @@ class CollectionAdapter(private val viewModel: MainViewModel)
         fun bind(item: CollectionList) {
             collectionName.text = item.title
             collectionResCount.text = StringBuilder().append(item.res_count.toString()).append(" Restaurants")
-            Glide.glideFetchCollection(item.image_url,item.image_url,collectionImage)
+            Glide.glideFetchCollection(item.image_url.toString(),item.image_url.toString(),collectionImage)
+
         }
     }
 

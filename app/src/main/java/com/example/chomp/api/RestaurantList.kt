@@ -18,24 +18,15 @@ data class Location(
     val locality_verbose: SpannableString?
 )
 
-//data class CollectionList(
-//    @SerializedName("res_count")
-//    val name: Int,
-//    @SerializedName("image_url")
-//    val image_url: String,
-//    @SerializedName("title")
-//    val title: SpannableString
-//)
-
 data class RestaurantList (
     @SerializedName("name")
     val name: String?,
     @SerializedName("thumb")
-    val thumbnailURL: String,
+    val thumbnailURL: String?,
     @SerializedName("featured_image")
     val imageURL: SpannableString?,
     @SerializedName("user_rating")
-    val user_rating: User_Rating,
+    val user_rating: User_Rating?,
     @SerializedName("cuisines")
     val cuisines: String?,
     @SerializedName("average_cost_for_two")

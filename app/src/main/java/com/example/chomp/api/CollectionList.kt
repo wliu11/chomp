@@ -10,11 +10,11 @@ import com.google.gson.annotations.SerializedName
 
 data class CollectionList(
     @SerializedName("res_count")
-    val res_count: Int,
+    val res_count: Int?,
     @SerializedName("image_url")
-    val image_url: String,
+    val image_url: String?,
     @SerializedName("title")
-    val title: SpannableString
+    val title: SpannableString?
 ) {
     companion object {
         // NB: This only highlights the first match

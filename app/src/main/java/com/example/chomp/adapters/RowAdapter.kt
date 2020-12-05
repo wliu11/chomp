@@ -73,15 +73,15 @@ class RowAdapter(private val viewModel: MainViewModel)
         fun bind(item: RestaurantList) {
             restaurantName.text = item.name
             when {
-                item.user_rating.aggregate_rating!! >= 4.0 -> rating.setTextColor(Color.GREEN)
+                item.user_rating?.aggregate_rating!! >= 4.0 -> rating.setTextColor(Color.GREEN)
                 item.user_rating.aggregate_rating >= 3.0 && item.user_rating.aggregate_rating < 4.0 -> rating.setTextColor(Color.BLUE)
                 item.user_rating.aggregate_rating < 3.0 -> rating.setTextColor(Color.RED)
             }
-            rating.text = item.user_rating.aggregate_rating.toString()
+            rating.text = item.user_rating?.aggregate_rating.toString()
             cuisine.text = item.cuisines
             cost.text = StringBuilder().append(item.currency).append(item.cost).append(" ").append("for two")
             address.text = item.locality?.locality_verbose.toString()
-            Glide.glideFetch(item.imageURL.toString(),item.thumbnailURL,image)
+            Glide.glideFetch(item.imageURL.toString(),item.thumbnailURL.toString(),image)
         }
     }
 

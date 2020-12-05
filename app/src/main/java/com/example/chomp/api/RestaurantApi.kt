@@ -1,6 +1,7 @@
 package com.example.chomp.api
 
 import android.text.SpannableString
+import androidx.lifecycle.LiveData
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
@@ -19,20 +20,17 @@ import java.lang.reflect.Type
 
 interface RestaurantApi {
 
-   // @GET("/api/v2.1/search?entity_id={city_id}&entity_type=city&count=100&sort=rating&apikey=7b1ba5ba55dfca9b21cd7607f336e9c1")
-   // suspend fun getRestaurants(@Path("city_id") city_id: String) : ListingResponse
-
     @GET("/api/v2.1/search?entity_type=city&count=100&apikey=7b1ba5ba55dfca9b21cd7607f336e9c1")
     suspend fun getRestaurants(@Query("entity_id") entity_id: Int) : ListingData
-
-    //@GET("/api/v2.1/collections?city_id={city_id}&count=100&apikey=7b1ba5ba55dfca9b21cd7607f336e9c1")
-    //suspend fun getCollections() : ListingData
 
     @GET("/api/v2.1/collections?count=100&apikey=7b1ba5ba55dfca9b21cd7607f336e9c1")
     suspend fun getCollections(@Query("city_id") city_id: Int) : CollectionData
 
-    @GET("/api/v2.1/cities?apikey=7b1ba5ba55dfca9b21cd7607f336e9c1")
-    suspend fun getCityID(@Query("q") city_name: String) : CityData
+//    @GET("/api/v2.1/cities?apikey=7b1ba5ba55dfca9b21cd7607f336e9c1")
+//    suspend fun getCityID(@Query("q") city_name: String) : CityData
+//
+//    @androidx.room.Query("SELECT * FROM cities")
+//    suspend fun getAllCities() : CityData
 
     class ListingData(val restaurants: List<RestaurantsResponse>)
     data class RestaurantsResponse(val restaurant: RestaurantList)
@@ -40,7 +38,7 @@ interface RestaurantApi {
     class CollectionData(val collections: List<CollectionResponse>)
     data class CollectionResponse(val collection: CollectionList)
 
-    data class CityData(val location_suggestions: List<CityList>)
+//    data class CityData(val location_suggestions: List<CityList>)
 
     // This class allows Retrofit to parse items in our model of type
     // SpannableString.  Note, given the amount of "work" we do to

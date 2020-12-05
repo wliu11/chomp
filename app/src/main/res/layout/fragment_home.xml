@@ -23,9 +23,9 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center">
+                android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -33,14 +33,41 @@
                 android:id="@+id/locationIcon"
                 android:layout_marginTop="12dp"
                 android:src="@drawable/ic_baseline_location_on_24"
+                android:layout_weight="0.1"
                 />
 
-            <EditText
-                android:id="@+id/locationET"
+            <TextView
+                android:id="@+id/currentCity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Enter Location"
-                android:inputType="text" />
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:typeface="sans"
+                android:layout_marginTop="2dp"
+                android:text="Austin, TX"
+                android:layout_weight="0.9"
+                android:textStyle="bold"
+                />
+
+            <AutoCompleteTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/locationET"
+                android:textColor="@color/light_blue_900"
+                android:inputType="textAutoComplete"
+                android:hint="Change City"
+                android:layout_weight="1"
+                android:layout_marginRight="8dp"
+                android:textAlignment="textStart"
+                android:completionThreshold="1"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Go"
+                android:id="@+id/goBut"
+                android:layout_marginRight="8dp" />
+
             </LinearLayout>
 
             <TextView
@@ -60,7 +87,7 @@
             android:id="@+id/horizontalRV"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="1.2"
             android:layout_marginTop="4dp"
             android:layout_margin="8dp"
             />
