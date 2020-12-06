@@ -70,7 +70,7 @@ class RowAdapter(private val viewModel: MainViewModel)
                 )
                 intent.putExtra("phone", restaurant.phone)
                 intent.putExtra("url", restaurant.url)
-                intent.putExtra("rating", restaurant.user_rating.toString())
+                intent.putExtra("rating", restaurant.user_rating?.aggregate_rating.toString())
 
                 it.context.startActivity(intent)
             }

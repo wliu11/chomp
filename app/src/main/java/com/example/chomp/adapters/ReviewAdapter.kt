@@ -28,25 +28,24 @@ BaseAdapter() {
     override fun getItemId(position: Int): Long {
         return position.toLong()
     }
-
-    fun addAll(newList: List<Review>){
-        list.addAll(newList)
-    }
-    fun removeAt(position: Int) {
-        list.removeAt(position)
-    }
+//
+//    fun addAll(newList: List<Review>){
+//        list.addAll(newList)
+//    }
+//    fun removeAt(position: Int) {
+//        list.removeAt(position)
+//    }
 
     fun add(review: Review) {
         list.add(review)
     }
 
     private fun bindView(position: Int, view: View): View {
-        // We retrieve the item from the array
-        val nameAndRating = getItem(position)
-        // Now we bind the item, by copying the important parts into the view
-        //SSS
-        val textView = view.findViewById<TextView>(R.id.reviewText)
-        textView.text = nameAndRating.review
+        val reviewAndRating = getItem(position)
+        val reviewText = view.findViewById<TextView>(R.id.reviewText)
+        val reviewValue = view.findViewById<TextView>(R.id.reviewRating)
+        reviewText.text = reviewAndRating.review
+        reviewValue.text = ", " + reviewAndRating.rating.toString() + "/5"
 
         return view
     }
