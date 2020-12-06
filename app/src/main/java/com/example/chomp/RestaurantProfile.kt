@@ -22,10 +22,6 @@ import kotlin.math.cos
 
 class RestaurantProfile : AppCompatActivity() {
 
-    private val viewModel: MainViewModel by viewModels()
-    lateinit var arrayAdapter: ArrayAdapter<String>
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.restaurant_profile)
@@ -40,54 +36,43 @@ class RestaurantProfile : AppCompatActivity() {
         val cost = restaurant?.getString("cost")
         val cuisine = restaurant?.getString("cuisine")
         val phone = restaurant?.getString("phone").toString()
-
         val menuURL = "<a href='" + restaurant?.getString("menu") + "'>Menu</a>"
-
         val url = "<a href='" + restaurant?.getString("url") + "'>Website</a>"
         val imageURL = restaurant!!.getString("imageURL")
         val thumbURL = restaurant.getString("thumbnailURL")
         val highlights = restaurant.getStringArrayList("highlights")
-
-
-        shareBut.setOnClickListener {
-            val rec = cost?.let { it1 -> RestaurantList(name, it1, cuisine,
-                null, phone, cost.toInt(), null, null, highlights as
-                        ArrayList<String>,
-            menuURL, phone, url) }
-
-            Log.d("mytag", "we're sharing this to the chat")
-            if (rec != null) {
-                viewModel.newRecommendation(rec)
-            }
-            finish()
-
-        }
+        val rating = restaurant.getString("rating")
 
         restaurantName.text = name
         // Todo: Change the getString to getInt because cost should be an integer
-//        restaurantCost.text = cost + ", " + cuisine + ", " + phone
-////        restaurantDescription.text = cuisine
-////        restaurantPhone.text = phone
-        restaurantDescriptionAndPhone.text = cuisine + " * " + phone
+        restaurantCost.text = cost
+        restaurantDescription.text = cuisine
+        restaurantPhone.text = phone
         restaurantMenu.movementMethod = LinkMovementMethod.getInstance()
         restaurantMenu.text = Html.fromHtml(menuURL, Html.FROM_HTML_MODE_LEGACY)
-
         restaurantURl.movementMethod = LinkMovementMethod.getInstance()
         restaurantURl.text = Html.fromHtml(url, Html.FROM_HTML_MODE_LEGACY)
+        reviewRating.text = rating
+
         Glide.glideFetch(imageURL, thumbURL, restaurantIcon)
 
+        val highlightAdapter = ArrayAdapter(this,
+            android.R.layout.simple_list_item_1, highlights)
+        restaurantHighlights.adapter = highlightAdapter
+
+
         val listView = findViewById<ListView>(R.id.reviewList)
-        val theAdapter = ReviewAdapter(this)
-        listView.adapter = theAdapter
+        val reviewAdapter = ReviewAdapter(this)
+        listView.adapter = reviewAdapter
 
         submitRating.setOnClickListener {
-            val rating = ratingBar.rating.toInt()
-            val review = reviewBox.text.toString()
-            theAdapter.add(Review(review, rating))
+            val yourRating = ratingBar.rating.toInt()
+            val yourReview = reviewBox.text.toString()
+            reviewAdapter.add(Review(yourReview, yourRating))
+            reviewAdapter.notifyDataSetChanged()
 
             // Clear the review textbox after review was recorded
             reviewBox.text.clear()
-
         }
     }
 }

@@ -18,6 +18,11 @@ class Favorites : Fragment() {
 
     private val viewModel: MainViewModel by activityViewModels()
 
+    companion object {
+        fun newInstance(): Favorites {
+            return Favorites()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

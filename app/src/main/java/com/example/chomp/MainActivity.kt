@@ -26,18 +26,9 @@ import java.io.Serializable
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: MainViewModel by viewModels()
+//    private val viewModel: MainViewModel by viewModels()
     private lateinit var navigationController: NavController
 
-    private fun initUserUI() {
-        viewModel.observeFirebaseAuthLiveData().observe(this, Observer {
-            if (it == null) {
-                Log.d("mytag", "No one is signed in")
-            } else {
-                Log.d("mytag", "${it.displayName} ${it.email} ${it.uid} signed in")
-            }
-        })
-    }
 
     fun hideKeyboard() {
         currentFocus?.windowToken?.let {
@@ -49,10 +40,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-     //   initUserUI()
-     //   val authInitIntent = Intent(this, AuthInitActivity::class.java)
-     //   startActivity(authInitIntent)
 
         val providers = arrayListOf(
             AuthUI.IdpConfig.EmailBuilder().build(),
@@ -72,20 +59,6 @@ class MainActivity : AppCompatActivity() {
 
         // Hide top action toolbar
         supportActionBar?.hide()
-
-        viewModel.recommendation.observe(this, Observer {
-            Log.d("mytag", "can we update the chat?")
-//            val navController = (supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
-//                    as NavHostFragment).navController
-//            val navController = findNavController(parentActivityIntent.)
-//            Log.d("mytag", "current dest " + navController.currentDestination?.id)
-//            if (navController.currentDestination?.id == R.id.chatFragment) // Id as per set up on nav_graph.xml file
-//            {/
-//                Log.d("mytag", "matches")
-            //
-//             navController.navigate(R.id.chatFragment)
-//            }
-        })
 
         // Initiate bottom toolbar navigation
         navigationController = findNavController(R.id.nav_host_fragment)
@@ -120,8 +93,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-
     override fun onSupportNavigateUp() = navigationController.navigateUp()
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -135,11 +106,4 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        Log.d("mytag", "GREETANS WE ARE BAKC HERE ")
-        Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.homeFragment)
-    }
-
 }
