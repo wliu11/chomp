@@ -9,12 +9,16 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.annotations.SerializedName
 
 data class CollectionList(
+    @SerializedName("collection_id")
+    val collection_id: Int,
     @SerializedName("res_count")
     val res_count: Int?,
     @SerializedName("image_url")
     val image_url: String?,
     @SerializedName("title")
-    val title: SpannableString?
+    val title: SpannableString?,
+    @SerializedName("description")
+    val description: SpannableString?
 ) {
     companion object {
         // NB: This only highlights the first match

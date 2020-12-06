@@ -10,8 +10,10 @@ import android.util.Log
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.*
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.Navigation.findNavController
+import androidx.navigation.findNavController
 import com.example.chomp.api.CollectionList
 import com.example.chomp.api.RestaurantList
 import com.example.chomp.api.RestaurantApi
@@ -66,6 +68,13 @@ class MainViewModel(application: Application,
         value = 278
     }
     private var collections = MutableLiveData<List<CollectionList>>()
+
+    private var collectionId = MutableLiveData<Int>()
+    private var collectionTitle = MutableLiveData<String>()
+    private var collectionDesc = MutableLiveData<String>()
+    private var collectionImageURL = MutableLiveData<String>()
+
+    private var restaurantsByCollection = MutableLiveData<List<RestaurantList>>()
 
     private val cityRepository = CityRepository(application)
     private val allCities = cityRepository.getAllCities()
@@ -123,6 +132,19 @@ class MainViewModel(application: Application,
         collections.postValue(cityId.value?.let { restaurantRepository.getCollections(it) })
     }
 
+    private fun postsByCollection() = viewModelScope.launch(
+        context = viewModelScope.coroutineContext
+                + Dispatchers.IO) {
+        // Update LiveData from IO dispatcher, use postValue
+        restaurantsByCollection.postValue(cityId.value?.let {
+            collectionId.value?.let { it1 ->
+                restaurantRepository.getRestaurantsByCollection(
+                    it, it1
+                )
+            }
+        })
+    }
+
     init {
 
     }
@@ -135,6 +157,15 @@ class MainViewModel(application: Application,
 
     fun getCityCount(newLocation: String): Int {
         return cityRepository.getCityCount(newLocation)
+    }
+
+    fun setCollection(newCollection: CollectionList) {
+        collectionId.value = newCollection.collection_id
+        collectionTitle.value = newCollection.title.toString()
+        collectionDesc.value = newCollection.description.toString()
+        collectionImageURL.value = newCollection.image_url
+        Log.d("XXX", "New Collection name: ${newCollection.title.toString()}")
+        Log.d("XXX", "New Collection id: ${newCollection.collection_id.toString()}")
     }
 
     private var  newRestaurants = MediatorLiveData<List<RestaurantList>>().apply {
@@ -162,12 +193,29 @@ class MainViewModel(application: Application,
         return collections
     }
 
+    fun observePostsByCollection(): LiveData<List<RestaurantList>> {
+        postsByCollection()
+        return restaurantsByCollection
+    }
+
     fun getAllCities(): LiveData<List<String>> {
         return allCities
     }
 
     fun observeCity(): LiveData<String> {
         return cityName
+    }
+
+    fun observeCollectionTitle(): LiveData<String> {
+        return collectionTitle
+    }
+
+    fun observeColectionDesc(): LiveData<String> {
+        return collectionDesc
+    }
+
+    fun observeCollectionImageURL(): LiveData<String> {
+        return collectionImageURL
     }
 
 //End here - Venkat
@@ -300,7 +348,6 @@ class MainViewModel(application: Application,
             context.startActivity(intent)
 
         }
-
 
     }
 }

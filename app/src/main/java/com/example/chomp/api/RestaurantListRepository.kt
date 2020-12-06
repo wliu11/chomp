@@ -26,4 +26,9 @@ class RestaurantListRepository(private val restaurantApi: RestaurantApi) {
         return unpackCollections(response)
     }
 
+    suspend fun getRestaurantsByCollection(city_id: Int, collection_id: Int): List<RestaurantList>? {
+        val response = restaurantApi.getRestaurantsByCollection(city_id,collection_id)
+        return unpackPosts(response)
+    }
+
 }

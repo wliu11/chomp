@@ -25,7 +25,6 @@ class RowAdapter(private val viewModel: MainViewModel)
     class RestaurantDiff : DiffUtil.ItemCallback<RestaurantList>() {
 
         override fun areContentsTheSame(oldItem: RestaurantList, newItem: RestaurantList): Boolean {
-            //TODO("Not yet implemented")
             return oldItem.name == newItem.name
                     && oldItem.cuisines == newItem.cuisines
                     && oldItem.cost == newItem.cost
@@ -33,7 +32,6 @@ class RowAdapter(private val viewModel: MainViewModel)
         }
 
         override fun areItemsTheSame(oldItem: RestaurantList, newItem: RestaurantList): Boolean {
-            //TODO("Not yet implemented")
             return oldItem.name == newItem.name
         }
     }

@@ -20,6 +20,24 @@
             app:destination="@+id/settingsFragment"
             />
 
+        <action
+            android:id="@+id/action_to_CollectionsFragment"
+            app:destination="@+id/collectionsFragment"
+            />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/collectionsFragment"
+        android:name="com.example.chomp.view.CollectionsFragment"
+        android:label="fragment_collections"
+        tools:layout="@layout/fragment_collections">
+
+        <action
+            android:id="@+id/action_to_HomeFragment"
+            app:destination="@+id/homeFragment"
+            />
+
     </fragment>
 
     <fragment
