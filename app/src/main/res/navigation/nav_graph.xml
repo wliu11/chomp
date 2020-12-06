@@ -80,6 +80,21 @@
         android:label="SettingsFragment"
         tools:layout="@layout/settings_layout">
 
+        <action
+            android:id="@+id/action_to_HomeFragment1"
+            app:destination="@+id/homeFragment"
+            />
+
+        <action
+            android:id="@+id/action_to_ChatFragment1"
+            app:destination="@+id/chatFragment"
+            />
+
+        <action
+            android:id="@+id/action_to_FavoritesFragment1"
+            app:destination="@+id/favoritesFragment"
+            />
+
     </fragment>
 
     <fragment

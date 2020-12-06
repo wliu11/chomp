@@ -6,25 +6,31 @@ import androidx.lifecycle.LiveData
 class CityRepository(application: Application) {
 
     private var cityDao: CityDao
+    private var userDao: UserDao
     private var allCities: LiveData<List<String>>
 
     private val database = CityDatabase.getInstance(application)
 
     init {
         cityDao = database.cityDao()
+        userDao = database.userDao()
         allCities = cityDao.getAllCities()
     }
 
-    fun insert(city: City) {
-        cityDao.insert(city)
+    fun insertUser(uid: String, city: String) {
+        userDao.insertUser(uid,city)
     }
 
-    fun update(city: City) {
-        cityDao.update(city)
+    fun updateUser(uid: String, city: String) {
+        userDao.updateUser(uid,city)
     }
 
-    fun delete(city: City) {
-        cityDao.delete(city)
+    fun getUserCity(uid: String): Int {
+        return userDao.getUserCity(uid)
+    }
+
+    fun getUserCityName(uid: String): String {
+        return userDao.getUserCityName(uid)
     }
 
     fun getCityId(name: String): Int {

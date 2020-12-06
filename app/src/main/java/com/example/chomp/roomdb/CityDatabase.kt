@@ -6,10 +6,11 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [City::class], version = 1)
+@Database(entities = [City::class,User::class], version = 1)
 abstract class CityDatabase : RoomDatabase() {
 
     abstract fun cityDao(): CityDao
+    abstract fun userDao(): UserDao
 
     companion object {
         private var instance: CityDatabase? = null
@@ -17,8 +18,7 @@ abstract class CityDatabase : RoomDatabase() {
         @Synchronized
         fun getInstance(ctx: Context): CityDatabase {
             if(instance == null)
-                instance = Room.databaseBuilder(ctx, CityDatabase::class.java, "restaurant.db")
-                    .fallbackToDestructiveMigration()
+                instance = Room.databaseBuilder(ctx, CityDatabase::class.java, "restaurants.db")
                     .createFromAsset("restaurants.db")
                     .allowMainThreadQueries()
                     .build()

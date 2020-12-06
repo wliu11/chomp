@@ -61,12 +61,10 @@ class MainViewModel(application: Application,
     private var restaurantApi = RestaurantApi.create()
     private var restaurantRepository = RestaurantListRepository(restaurantApi)
     private var restaurants = MutableLiveData<List<RestaurantList>>()
-    private var cityName = MutableLiveData<String>().apply {
-        value = "Austin,TX"
-    }
-    private var cityId = MutableLiveData<Int>().apply {
-        value = 278
-    }
+
+    private var cityName = MutableLiveData<String>()
+    private var cityId = MutableLiveData<Int>()
+
     private var collections = MutableLiveData<List<CollectionList>>()
 
     private var collectionId = MutableLiveData<Int>()
@@ -148,13 +146,36 @@ class MainViewModel(application: Application,
     }
 
     init {
-
+        val user = FirebaseAuth.getInstance().currentUser
+        val city = user?.uid?.let { cityRepository.getUserCityName(it) }
+        if(city.isNullOrBlank()){
+                cityName.value = "Austin,TX"
+                cityId.value = 278
+            }
+        else{
+            cityName.value = city
+            cityId.value = cityRepository.getCityId(city)
+        }
     }
 
     fun setLocation(newLocation: String) {
         cityName.value = newLocation
         Log.d("XXX", "New City name: $newLocation")
         cityId.postValue(cityRepository.getCityId(newLocation))
+    }
+
+    fun setUserLocation(newLocation: String, user: String) {
+        Log.d("XXX", "New Default City for $user is: $newLocation")
+        val count = cityRepository.getUserCity(user)
+        if(count >0){
+            Log.d("xxx","count is $count Updating")
+            cityRepository.updateUser(user,newLocation)
+        }
+        else{
+            cityRepository.insertUser(user,newLocation)
+            Log.d("xxx","count is $count Inserting")
+        }
+
     }
 
     fun getCityCount(newLocation: String): Int {
