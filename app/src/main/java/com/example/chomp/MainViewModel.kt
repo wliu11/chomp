@@ -74,6 +74,8 @@ class MainViewModel(application: Application,
     private var collectionDesc = MutableLiveData<String>()
     private var collectionImageURL = MutableLiveData<String>()
 
+    private var profileUri = MutableLiveData<Uri>()
+
     private var restaurantsByCollection = MutableLiveData<List<RestaurantList>>()
 
     private val cityRepository = CityRepository(application)
@@ -168,6 +170,10 @@ class MainViewModel(application: Application,
         Log.d("XXX", "New Collection id: ${newCollection.collection_id.toString()}")
     }
 
+    fun setImageURI(newImage: Uri) {
+        profileUri.value = newImage
+    }
+
     private var  newRestaurants = MediatorLiveData<List<RestaurantList>>().apply {
 
         addSource(cityId) {value = newList()}
@@ -216,6 +222,10 @@ class MainViewModel(application: Application,
 
     fun observeCollectionImageURL(): LiveData<String> {
         return collectionImageURL
+    }
+
+    fun observeProfileURI(): LiveData<Uri> {
+        return profileUri
     }
 
 //End here - Venkat

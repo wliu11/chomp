@@ -6,12 +6,14 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.ImageView
 import androidx.core.view.doOnLayout
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.chomp.*
 import com.example.chomp.adapters.FirestoreChatAdapter
 import com.example.chomp.api.RestaurantList
@@ -27,16 +29,17 @@ class ChatFragment :
     private var fragmentUUID: String? = null
 
 
-    private fun scrollToEnd() =
+    private fun scrollToEnd(chatRV: RecyclerView) =
         (chatAdapter.itemCount - 1).takeIf { it > 0 }?.let(chatRV::smoothScrollToPosition)
 
     private fun initRecyclerView() {
         chatAdapter = FirestoreChatAdapter(viewModel)
-        chatRV.adapter = chatAdapter
-        chatRV.layoutManager = LinearLayoutManager(context)
+        val chatRV = activity?.findViewById<RecyclerView>(R.id.chatRV)
+        chatRV?.adapter = chatAdapter
+        chatRV?.layoutManager = LinearLayoutManager(context)
         //https://stackoverflow.com/questions/26580723/how-to-scroll-to-the-bottom-of-a-recyclerview-scrolltoposition-doesnt-work
-        chatRV.viewTreeObserver.addOnGlobalLayoutListener {
-            scrollToEnd()
+        chatRV?.viewTreeObserver?.addOnGlobalLayoutListener {
+            scrollToEnd(chatRV)
         }
     }
 

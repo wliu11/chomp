@@ -32,22 +32,45 @@
 
         </androidx.cardview.widget.CardView>
 
-        <EditText
-            android:id="@+id/nameProfilePage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:textSize="35sp"
-            android:hint="What's your name?"/>
-
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Click on Picture to Edit"
+            android:textAlignment="center"
+            android:textColor="#0000CC"
+            android:textStyle="italic"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/displayNameET"
+                android:layout_marginStart="8dp"
+                android:layout_weight="3"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/setNewDisplayName"
+                android:text="Set display name"
+                android:layout_margin="2dp"
+                android:textAllCaps="false" />
+
+        </LinearLayout>
+
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:id="@+id/locationProfilePage"
-            android:hint="What city do you live in?"
-            android:layout_margin="5dp"
-            />
+            android:id="@+id/setDisplayName"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="User Details"
+            android:textAllCaps="false"/>
 
     </LinearLayout>
 
@@ -60,13 +83,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/my_favorites"/>
+            android:text="Favorite Restaurants"
+            android:textAlignment="center"
+            android:textColor="@color/black"/>
 
         <androidx.fragment.app.FragmentContainerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/main_frame" />
-
 
     </LinearLayout>
 
