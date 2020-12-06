@@ -16,6 +16,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.chomp.*
 import com.example.chomp.adapters.CollectionAdapter
 import com.example.chomp.adapters.RowAdapter
+import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment :
         Fragment(R.layout.fragment_home) {
@@ -121,6 +122,7 @@ class HomeFragment :
         initSwipeLayout(view)
         initAdapter(view)
         actionSearch(view)
+
         return view
     }
 }

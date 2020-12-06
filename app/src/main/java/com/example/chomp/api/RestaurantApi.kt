@@ -26,6 +26,9 @@ interface RestaurantApi {
     @GET("/api/v2.1/collections?count=100&apikey=7b1ba5ba55dfca9b21cd7607f336e9c1")
     suspend fun getCollections(@Query("city_id") city_id: Int) : CollectionData
 
+    @GET("/api/v2.1/search?entity_type=city&count=100&apikey=7b1ba5ba55dfca9b21cd7607f336e9c1")
+    suspend fun getRestaurantsByCollection(@Query("entity_id") entity_id: Int, @Query("collection_id") collection_id: Int) : ListingData
+
 //    @GET("/api/v2.1/cities?apikey=7b1ba5ba55dfca9b21cd7607f336e9c1")
 //    suspend fun getCityID(@Query("q") city_name: String) : CityData
 //
