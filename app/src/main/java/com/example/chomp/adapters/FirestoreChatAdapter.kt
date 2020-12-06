@@ -81,16 +81,6 @@ class FirestoreChatAdapter(private var viewModel: MainViewModel)
                 viewModel.deleteChatRow(item)
                 true
             }
-            // XXX Write me, bind picIV using pictureUUID.
-//            if (item.pictureUUID == null) {
-//                picIV.visibility = View.GONE
-//            } else {
-//                viewModel.glideFetch(item.pictureUUID!!, picIV)
-//            }
-//            picIV.setOnLongClickListener {
-//                viewModel.deleteChatRow(item)
-//                true
-//            }
 
             if (item.timeStamp == null) {
                 timeTV.text = ""
