@@ -20,6 +20,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.onNavDestinationSelected
+import com.firebase.ui.auth.AuthUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.io.Serializable
 
@@ -49,9 +50,25 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        initUserUI()
-        val authInitIntent = Intent(this, AuthInitActivity::class.java)
-        startActivity(authInitIntent)
+     //   initUserUI()
+     //   val authInitIntent = Intent(this, AuthInitActivity::class.java)
+     //   startActivity(authInitIntent)
+
+        val providers = arrayListOf(
+            AuthUI.IdpConfig.EmailBuilder().build(),
+            AuthUI.IdpConfig.GoogleBuilder().build()
+        )
+
+        startActivityForResult(
+            AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setTheme(R.style.CustomTheme)
+                .setLogo(R.drawable.homepage)
+                .setIsSmartLockEnabled(false)
+                .setAvailableProviders(providers)
+                .build(),
+            1
+        )
 
         // Hide top action toolbar
         supportActionBar?.hide()
@@ -122,7 +139,7 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         Log.d("mytag", "GREETANS WE ARE BAKC HERE ")
-        Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.chatFragment)
+        Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.homeFragment)
     }
 
 }

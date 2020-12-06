@@ -20,7 +20,6 @@ import androidx.navigation.Navigation.findNavController
 
 class CollectionAdapter(private val viewModel: MainViewModel)
     : ListAdapter<CollectionList, CollectionAdapter.VH>(CollectionDiff()) {
-    private lateinit var navigationController: NavController
 
     class CollectionDiff : DiffUtil.ItemCallback<CollectionList>() {
 

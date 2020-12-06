@@ -44,9 +44,6 @@ class RowAdapter(private val viewModel: MainViewModel)
     inner class VH(view: View)
         : RecyclerView.ViewHolder(view) {
 
-        //private var nameTextView = view.findViewById<TextView>(R.id.restaurantNameView)
-        //private var priceView = view.findViewById<TextView>(R.id.priceView)
-
         private var image = view.findViewById<ImageView>(R.id.imageIV)
         private var restaurantName = view.findViewById<TextView>(R.id.restaurantName)
         private var rating = view.findViewById<TextView>(R.id.ratingTV)
