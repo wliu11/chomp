@@ -61,6 +61,7 @@ class RowAdapter(private val viewModel: MainViewModel)
 
                 intent.putExtra("name", restaurant.name.toString())
                 intent.putExtra("cuisine", restaurant.cuisines.toString())
+                intent.putExtra("currency", restaurant.currency.toString())
                 intent.putExtra("cost", restaurant.cost.toString())
                 intent.putExtra("imageURL", restaurant.imageURL.toString())
                 intent.putExtra("thumbnailURL", restaurant.thumbnailURL)
@@ -102,6 +103,12 @@ class RowAdapter(private val viewModel: MainViewModel)
             cost.text = StringBuilder().append(item.currency).append(item.cost).append(" ").append("for two")
             address.text = item.locality?.locality_verbose.toString()
             Glide.glideFetch(item.imageURL.toString(),item.thumbnailURL.toString(),image)
+            if(viewModel.isFav(item)){
+                favorited.setImageResource(R.drawable.ic_baseline_bookmark_filled_round)
+            }
+            else{
+                favorited.setImageResource(R.drawable.ic_baseline_bookmark_empty_round)
+            }
         }
 
     }

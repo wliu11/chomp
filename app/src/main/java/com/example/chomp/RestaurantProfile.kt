@@ -33,7 +33,7 @@ class RestaurantProfile : AppCompatActivity() {
         val restaurant = intent.extras
 
         val name = restaurant?.getString("name")
-        val cost = "Average cost for two: $" + restaurant?.getString("cost")
+        val cost = "Average cost for two: " + restaurant?.getString("currency") + restaurant?.getString("cost")
         val cuisine = "Type of cuisine: " + restaurant?.getString("cuisine")
         val phone = restaurant?.getString("phone").toString()
         val menuURL = "<a href='" + restaurant?.getString("menu") + "'>Menu</a>"
