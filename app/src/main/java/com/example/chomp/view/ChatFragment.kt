@@ -37,7 +37,6 @@ class ChatFragment :
         val chatRV = activity?.findViewById<RecyclerView>(R.id.chatRV)
         chatRV?.adapter = chatAdapter
         chatRV?.layoutManager = LinearLayoutManager(context)
-        //https://stackoverflow.com/questions/26580723/how-to-scroll-to-the-bottom-of-a-recyclerview-scrolltoposition-doesnt-work
         chatRV?.viewTreeObserver?.addOnGlobalLayoutListener {
             scrollToEnd(chatRV)
         }

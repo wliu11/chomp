@@ -26,9 +26,7 @@ import java.io.Serializable
 
 class MainActivity : AppCompatActivity() {
 
-//    private val viewModel: MainViewModel by viewModels()
     private lateinit var navigationController: NavController
-
 
     fun hideKeyboard() {
         currentFocus?.windowToken?.let {
@@ -72,21 +70,17 @@ class MainActivity : AppCompatActivity() {
                 }
                 "Profile" -> {
                     navigationController.navigate(R.id.profile)
-                    Log.d("mytag", "we're navigating?")
                     return@setOnNavigationItemSelectedListener true
                 }
                 "Messages" -> {
                     navigationController.navigate(R.id.chatFragment)
-                    Log.d("mytag", "to messages")
                     return@setOnNavigationItemSelectedListener true
                 }
                 "Settings" -> {
                     navigationController.navigate(R.id.settingsFragment)
-                    Log.d("mytag", "to settings")
                     return@setOnNavigationItemSelectedListener true
                 }
                 else -> {
-                    Log.d("mytag", "is this even possble")
                     return@setOnNavigationItemSelectedListener true
                 }
             }
