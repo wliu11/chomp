@@ -18,6 +18,7 @@ import com.example.chomp.api.Review
 import com.example.chomp.api.User_Rating
 import com.example.chomp.glide.Glide
 import kotlinx.android.synthetic.main.restaurant_profile.*
+import kotlin.math.cos
 
 class RestaurantProfile : AppCompatActivity() {
 
@@ -39,8 +40,10 @@ class RestaurantProfile : AppCompatActivity() {
         val cost = restaurant?.getString("cost")
         val cuisine = restaurant?.getString("cuisine")
         val phone = restaurant?.getString("phone").toString()
+
         val menuURL = "<a href='" + restaurant?.getString("menu") + "'>Menu</a>"
-        val url = restaurant?.getString("url")
+
+        val url = "<a href='" + restaurant?.getString("url") + "'>Website</a>"
         val imageURL = restaurant!!.getString("imageURL")
         val thumbURL = restaurant.getString("thumbnailURL")
         val highlights = restaurant.getStringArrayList("highlights")
@@ -62,11 +65,14 @@ class RestaurantProfile : AppCompatActivity() {
 
         restaurantName.text = name
         // Todo: Change the getString to getInt because cost should be an integer
-        restaurantCost.text = cost
-        restaurantDescription.text = cuisine
-        restaurantPhone.text = phone
+//        restaurantCost.text = cost + ", " + cuisine + ", " + phone
+////        restaurantDescription.text = cuisine
+////        restaurantPhone.text = phone
+        restaurantDescriptionAndPhone.text = cuisine + " * " + phone
         restaurantMenu.movementMethod = LinkMovementMethod.getInstance()
         restaurantMenu.text = Html.fromHtml(menuURL, Html.FROM_HTML_MODE_LEGACY)
+
+        restaurantURl.movementMethod = LinkMovementMethod.getInstance()
         restaurantURl.text = Html.fromHtml(url, Html.FROM_HTML_MODE_LEGACY)
         Glide.glideFetch(imageURL, thumbURL, restaurantIcon)
 
@@ -75,12 +81,12 @@ class RestaurantProfile : AppCompatActivity() {
         listView.adapter = theAdapter
 
         submitRating.setOnClickListener {
-            Log.d("mytag", "hiello yes we're clicking it yup hi")
             val rating = ratingBar.rating.toInt()
             val review = reviewBox.text.toString()
-            Log.d("mytag", "rating is " + rating)
-            Log.d("mytag", "review is " + review)
             theAdapter.add(Review(review, rating))
+
+            // Clear the review textbox after review was recorded
+            reviewBox.text.clear()
 
         }
     }
