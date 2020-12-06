@@ -4,12 +4,17 @@ import android.os.Bundle
 import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.util.Log
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.ListView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import com.example.chomp.adapters.ReviewAdapter
 import com.example.chomp.api.RestaurantList
+import com.example.chomp.api.Review
 import com.example.chomp.api.User_Rating
 import com.example.chomp.glide.Glide
 import kotlinx.android.synthetic.main.restaurant_profile.*
@@ -17,6 +22,8 @@ import kotlinx.android.synthetic.main.restaurant_profile.*
 class RestaurantProfile : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels()
+    lateinit var arrayAdapter: ArrayAdapter<String>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +56,7 @@ class RestaurantProfile : AppCompatActivity() {
             if (rec != null) {
                 viewModel.newRecommendation(rec)
             }
+            finish()
 
         }
 
@@ -61,23 +69,19 @@ class RestaurantProfile : AppCompatActivity() {
         restaurantMenu.text = Html.fromHtml(menuURL, Html.FROM_HTML_MODE_LEGACY)
         restaurantURl.text = Html.fromHtml(url, Html.FROM_HTML_MODE_LEGACY)
         Glide.glideFetch(imageURL, thumbURL, restaurantIcon)
-        submitRating.setOnClickListener {
-            val rating = ratingBar.rating.toString()
-            val review = reviewBox.text
-        }
 
-        viewModel.recommendation.observe(this, Observer {
-            Log.d("mytag", "can we update the chat?")
-//            val navController = (supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
-//                    as NavHostFragment).navController
-//            val navController = findNavController(parentActivityIntent.)
-//            Log.d("mytag", "current dest " + navController.currentDestination?.id)
-//            if (navController.currentDestination?.id == R.id.chatFragment) // Id as per set up on nav_graph.xml file
-//            {/
-//                Log.d("mytag", "matches")
-        //
-//             navController.navigate(R.id.chatFragment)
-//            }
-        })
+        val listView = findViewById<ListView>(R.id.reviewList)
+        val theAdapter = ReviewAdapter(this)
+        listView.adapter = theAdapter
+
+        submitRating.setOnClickListener {
+            Log.d("mytag", "hiello yes we're clicking it yup hi")
+            val rating = ratingBar.rating.toInt()
+            val review = reviewBox.text.toString()
+            Log.d("mytag", "rating is " + rating)
+            Log.d("mytag", "review is " + review)
+            theAdapter.add(Review(review, rating))
+
+        }
     }
 }

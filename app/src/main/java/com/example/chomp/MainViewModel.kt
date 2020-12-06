@@ -281,26 +281,25 @@ class MainViewModel(application: Application,
     }
 
     // Convenient place to put it as it is shared
-    companion object {
-        fun launchPost(context: Context, restaurant: RestaurantList) {
-            val intent = Intent(context, RestaurantProfile::class.java)
-
-            intent.putExtra("name", restaurant.name.toString())
-            intent.putExtra("cuisine", restaurant.cuisines.toString())
-            intent.putExtra("cost", restaurant.cost.toString())
-            intent.putExtra("imageURL", restaurant.imageURL.toString())
-            intent.putExtra("thumbnailURL", restaurant.thumbnailURL)
-            intent.putExtra("menu", restaurant.menu)
-            intent.putStringArrayListExtra("highlights",
-                restaurant.highlights.toMutableList() as ArrayList<String>?
-            )
-            intent.putExtra("phone", restaurant.phone)
-            intent.putExtra("url", restaurant.url)
-            intent.putExtra("rating", restaurant.user_rating.toString())
-            context.startActivity(intent)
-
-        }
-
-
-    }
+//    companion object {
+//        fun launchPost(context: Context, restaurant: RestaurantList) {
+//            val intent = Intent(context, RestaurantProfile::class.java)
+//
+//            intent.putExtra("name", restaurant.name.toString())
+//            intent.putExtra("cuisine", restaurant.cuisines.toString())
+//            intent.putExtra("cost", restaurant.cost.toString())
+//            intent.putExtra("imageURL", restaurant.imageURL.toString())
+//            intent.putExtra("thumbnailURL", restaurant.thumbnailURL)
+//            intent.putExtra("menu", restaurant.menu)
+//            intent.putStringArrayListExtra("highlights",
+//                restaurant.highlights.toMutableList() as ArrayList<String>?
+//            )
+//            intent.putExtra("phone", restaurant.phone)
+//            intent.putExtra("url", restaurant.url)
+//            intent.putExtra("rating", restaurant.user_rating.toString())
+//            context.startActivity(intent)
+//
+//        }
+//
+//    }
 }

@@ -26,14 +26,9 @@ class ChatFragment :
     private var currentUser: FirebaseUser? = null
     private var fragmentUUID: String? = null
 
-    companion object {
-        fun newInstance(): ChatFragment {
-            return ChatFragment()
-        }
-    }
 
     private fun scrollToEnd() =
-    (chatAdapter.itemCount - 1).takeIf { it > 0 }?.let(chatRV::smoothScrollToPosition)
+        (chatAdapter.itemCount - 1).takeIf { it > 0 }?.let(chatRV::smoothScrollToPosition)
 
     private fun initRecyclerView() {
         chatAdapter = FirestoreChatAdapter(viewModel)
@@ -61,10 +56,10 @@ class ChatFragment :
     private fun initComposeSendIB() {
         // Send message button
         composeSendIB.setOnClickListener {
-            if( composeMessageET.text.isNotEmpty()) {
+            if (composeMessageET.text.isNotEmpty()) {
                 val chatRow = ChatRow().apply {
                     val cUser = currentUser
-                    if(cUser == null) {
+                    if (cUser == null) {
                         name = "unknown"
                         ownerUid = "unknown"
                         Log.d("HomeFragment", "XXX, currentUser null!")
@@ -83,7 +78,6 @@ class ChatFragment :
     // Something might have changed.  Redo query
     override fun onResume() {
         super.onResume()
-
         viewModel.getChat()
     }
 
@@ -96,22 +90,22 @@ class ChatFragment :
 
         viewModel.observeChat().observe(viewLifecycleOwner, Observer {
             chatAdapter.submitList(it)
+            Log.d("mytag", "we're refreshing the list")
         })
-
 
         composeMessageET.setOnEditorActionListener { /*v*/_, actionId, event ->
             // If user has pressed enter, or if they hit the soft keyboard "send" button
             // (which sends DONE because of the XML)
             if ((event != null
-                        &&(event.action == KeyEvent.ACTION_DOWN)
-                        &&(event.keyCode == KeyEvent.KEYCODE_ENTER))
-                || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                        && (event.action == KeyEvent.ACTION_DOWN)
+                        && (event.keyCode == KeyEvent.KEYCODE_ENTER))
+                || (actionId == EditorInfo.IME_ACTION_DONE)
+            ) {
                 (requireActivity() as MainActivity).hideKeyboard()
                 composeSendIB.callOnClick()
             }
             true
         }
-
         composePreviewIV.visibility = View.GONE
     }
 

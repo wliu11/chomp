@@ -9,15 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.navigation.Navigation
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chomp.MainViewModel
 import com.example.chomp.R
+import com.example.chomp.RestaurantProfile
 import com.example.chomp.api.RestaurantList
 import com.example.chomp.glide.Glide
+import java.util.ArrayList
 
 class RowAdapter(private val viewModel: MainViewModel)
     : ListAdapter<RestaurantList, RowAdapter.VH>(RestaurantDiff()) {
@@ -25,21 +26,18 @@ class RowAdapter(private val viewModel: MainViewModel)
     class RestaurantDiff : DiffUtil.ItemCallback<RestaurantList>() {
 
         override fun areContentsTheSame(oldItem: RestaurantList, newItem: RestaurantList): Boolean {
-            //TODO("Not yet implemented")
             return oldItem.name == newItem.name
                     && oldItem.cuisines == newItem.cuisines
                     && oldItem.cost == newItem.cost
-                    && oldItem.locality == oldItem.locality
+                    && oldItem.currency == newItem.currency
+                    && oldItem.highlights == newItem.highlights
+                    && oldItem.phone == newItem.phone
+                    && oldItem.locality == newItem.locality
         }
 
         override fun areItemsTheSame(oldItem: RestaurantList, newItem: RestaurantList): Boolean {
-            //TODO("Not yet implemented")
             return oldItem.name == newItem.name
         }
-    }
-
-    companion object {
-        val TAG = "RowAdapter"
     }
 
     // ViewHolder pattern minimizes calls to findViewById
@@ -60,7 +58,24 @@ class RowAdapter(private val viewModel: MainViewModel)
         init {
 
             view.setOnClickListener {
-                MainViewModel.launchPost(view.context, getItem(adapterPosition))
+//                MainViewModel.launchPost(view.context, getItem(adapterPosition))
+                val restaurant = getItem(adapterPosition)
+                val intent = Intent(it.context, RestaurantProfile::class.java)
+
+                intent.putExtra("name", restaurant.name.toString())
+                intent.putExtra("cuisine", restaurant.cuisines.toString())
+                intent.putExtra("cost", restaurant.cost.toString())
+                intent.putExtra("imageURL", restaurant.imageURL.toString())
+                intent.putExtra("thumbnailURL", restaurant.thumbnailURL)
+                intent.putExtra("menu", restaurant.menu)
+                intent.putStringArrayListExtra("highlights",
+                    restaurant.highlights.toMutableList() as ArrayList<String>?
+                )
+                intent.putExtra("phone", restaurant.phone)
+                intent.putExtra("url", restaurant.url)
+                intent.putExtra("rating", restaurant.user_rating.toString())
+
+                it.context.startActivity(intent)
             }
 
             favorited.setOnClickListener {
@@ -81,7 +96,8 @@ class RowAdapter(private val viewModel: MainViewModel)
             restaurantName.text = item.name
             when {
                 item.user_rating?.aggregate_rating!! >= 4.0 -> rating.setTextColor(Color.GREEN)
-                item.user_rating.aggregate_rating >= 3.0 && item.user_rating.aggregate_rating < 4.0 -> rating.setTextColor(Color.BLUE)
+                item.user_rating.aggregate_rating >= 3.0 && item.user_rating.aggregate_rating < 4.0
+                -> rating.setTextColor(Color.BLUE)
                 item.user_rating.aggregate_rating < 3.0 -> rating.setTextColor(Color.RED)
             }
             rating.text = item.user_rating?.aggregate_rating.toString()
@@ -96,8 +112,7 @@ class RowAdapter(private val viewModel: MainViewModel)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         return VH(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.row_restaurant,
-            parent, false))
+                R.layout.row_restaurant, parent, false))
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {

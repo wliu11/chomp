@@ -56,6 +56,20 @@ class MainActivity : AppCompatActivity() {
         // Hide top action toolbar
         supportActionBar?.hide()
 
+        viewModel.recommendation.observe(this, Observer {
+            Log.d("mytag", "can we update the chat?")
+//            val navController = (supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+//                    as NavHostFragment).navController
+//            val navController = findNavController(parentActivityIntent.)
+//            Log.d("mytag", "current dest " + navController.currentDestination?.id)
+//            if (navController.currentDestination?.id == R.id.chatFragment) // Id as per set up on nav_graph.xml file
+//            {/
+//                Log.d("mytag", "matches")
+            //
+//             navController.navigate(R.id.chatFragment)
+//            }
+        })
+
         // Initiate bottom toolbar navigation
         navigationController = findNavController(R.id.nav_host_fragment)
         NavigationUI.setupActionBarWithNavController(this, navigationController)
@@ -89,6 +103,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+
     override fun onSupportNavigateUp() = navigationController.navigateUp()
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -105,7 +121,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.d("mytag", "onActivityResult")
+        Log.d("mytag", "GREETANS WE ARE BAKC HERE ")
         Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.chatFragment)
     }
 
