@@ -6,15 +6,6 @@ import androidx.room.*
 @Dao
 interface CityDao {
 
-    @Insert
-    fun insert(note: City)
-
-    @Update
-    fun update(note: City)
-
-    @Delete
-    fun delete(note: City)
-
     @Query("select id from cities where name=:name")
     fun getCityId(name: String): Int
 
